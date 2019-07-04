@@ -45,6 +45,16 @@ with open(filepath) as fp:
 # print(len(datafromsheet))
 # print(ourroad)
 # print(len(ourroad))
+# taaa=[]
+# index = 0
+# for data in ourroad:
+#     road = ourroad[index][0]
+#     if datafromsheet not in road:
+#         taaa.append(road)
+#     index+=1
+# print(taaa)
+# print(len(taaa))
+print("hi")
 
 taaa=[]
 index = 0
