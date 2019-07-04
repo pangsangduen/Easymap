@@ -41,8 +41,8 @@ with open(filepath) as fp:
        datafromsheet.append(road)
        line = fp.readline()
        cnt += 1
-print(datafromsheet)
-print(len(datafromsheet))
+# print(datafromsheet)
+# print(len(datafromsheet))
 # print(ourroad)
 # print(len(ourroad))
 # taaa=[]
@@ -56,32 +56,23 @@ print(len(datafromsheet))
 # print(len(taaa))
 print("hi")
 
+taaa=[]
+index = 0
+for data in ourroad:
+    road = ourroad[index][0]
+    if road not in taaa:
+        taaa.append(road)
+    index+=1
+print(taaa)
+print(len(taaa))
+
+file = open('testfile.txt','w')
+for data in ourroad :
+    data = str(data)
+    file.write(data)
+file.close()
 
 
-
-
-# #print(jjj)
-# #print(aaa)
-# #print(len(aaa))
-# #datafromsheet
-# b=[]
-# num = 0
-# while num < len(datafromsheet):
-#     if datafromsheet[num] not in taaa:
-#         b.append(datafromsheet[num])
-#         num+=1
-
-# print(b)
-# print(len(b))
-
-
-
-
-# file = open('testfile.txt','w')
-# for data in ourroad :
-#     data = str(data)
-#     file.write(data)
-# file.close()
 
 # j = 0
 # k = 0
