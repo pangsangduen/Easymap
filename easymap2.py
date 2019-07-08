@@ -31,7 +31,7 @@ def ReadtxtToList(filepath,datafromsheet,nameroadlist,ourroad):
             datafromsheet.append(road)
             line = fp.readline()
             cnt += 1
-        print(datafromsheet)
+        #print(datafromsheet)
 
 def Ourroad(road,nameroadlist,ourroad):
     j = 0
@@ -40,16 +40,41 @@ def Ourroad(road,nameroadlist,ourroad):
         if nameroadlist[j][0].endswith(road) :
             ourroad.append(nameroadlist[j])
 
-def CutRoad(ourroad,taaa203):
+def  CutMap(ourroad,taaa203,gidlist,roadlist,lengthlist):
     index = 0
+    numGid = 0
     while index < len(ourroad):
         road = ourroad[index][0]
+        Gid = ourroad[index][1]
+        lengthh = ourroad[index][4]
+        roadlist.append(road+"\n")
         if road not in taaa203:
+            gidlist.append(numGid)
+            numGid = 0
             taaa203.append(road)
+
+        if road in taaa203:
+            numGid = numGid+1
+            gidlist.append(str(Gid)+"\n")
+            lengthlist.append(str(lengthh)+"\n")
+        index+= 1
+    gidlist.append(numGid)
+    print(gidlist)
+    print("เชื่อเส้นถนนที่หาเจอทั้งหมด  ="+str(len(taaa203)))
+
+
+def GidAll(ourroad):
+    ourGid = []
+    index = 0
+    while index < len(ourroad):
+        Gid = ourroad[index][1]
+        if Gid not in ourGid:
+            ourGid.append(Gid)
         index+=1
-    #print(jjj)
-    #print(aaa)
-    print(len(taaa203))
+    #print(ourGid)
+    print("เราต้องทำ x y ทั้งหมด  ="+str(len(ourGid)))
+
+
 
 def writetxt(file,ourroad):
     for data in ourroad :
@@ -63,12 +88,22 @@ def main():
     datafromsheet = []
     ourroad = []
     taaa203=[]
+    gidlist = []
+    roadlist = []
+    lengthlist = []
     filepath = 'nameroad1.txt' 
     file = open('testfile.txt','w')
     sql(result,nameroadlist)
     ReadtxtToList(filepath,datafromsheet,nameroadlist,ourroad)
-    CutRoad(ourroad,taaa203)
+    CutMap(ourroad,taaa203,gidlist,roadlist,lengthlist)
     writetxt(file,ourroad)
+    GidAll(ourroad)
+    file = open('roadlist.txt','w')
+    writetxt(file,roadlist)
+    file = open('gidlist.txt','w')
+    writetxt(file,gidlist)
+    file = open('lengthlist.txt','w')
+    writetxt(file,lengthlist)
 
 if __name__=="__main__":
     main()
