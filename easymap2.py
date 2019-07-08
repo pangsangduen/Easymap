@@ -43,18 +43,8 @@ with open(filepath) as fp:
        cnt += 1
 # print(datafromsheet)
 # print(len(datafromsheet))
-# print(ourroad)
-# print(len(ourroad))
-# taaa=[]
-# index = 0
-# for data in ourroad:
-#     road = ourroad[index][0]
-#     if datafromsheet not in road:
-#         taaa.append(road)
-#     index+=1
-# print(taaa)
-# print(len(taaa))
-print("hi")
+print(ourroad)
+print(len(ourroad))
 
 taaa=[]
 index = 0
@@ -63,8 +53,8 @@ for data in ourroad:
     if road not in taaa:
         taaa.append(road)
     index+=1
-print(taaa)
-print(len(taaa))
+# print(taaa)
+# print(len(taaa))
 
 file = open('testfile.txt','w')
 for data in ourroad :
@@ -90,3 +80,16 @@ file.close()
 #      data2 = data1.split(", ")
 #      listlat.append(data2[0])
 #      listlon.append(data2[1])
+
+
+file = open('testplot.txt','w')
+i=0
+while i < len(ourroad) : 
+    data = str(ourroad[i][2])+','+str(ourroad[i][3])+ ','
+    data = str(data)
+    file.write(data)
+    i+=1
+
+file.close()
+
+
