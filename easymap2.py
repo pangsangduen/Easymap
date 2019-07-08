@@ -1,5 +1,6 @@
 import os # เพราะเป็น os
 import psycopg2
+import math
 
 def sql(result,nameroadlist):
     con = psycopg2.connect(database = 'turntable20190613',user = 'trainee', password = 'mm2019', host = '192.168.1.151', port = '5433')
@@ -39,6 +40,7 @@ def Ourroad(road,nameroadlist,ourroad):
         j=j+1
         if nameroadlist[j][0].endswith(road) :
             ourroad.append(nameroadlist[j])
+    print(ourroad)
 
 def  CutMap(ourroad,taaa203,gidlist,roadlist,lengthlist):
     index = 0
@@ -49,18 +51,17 @@ def  CutMap(ourroad,taaa203,gidlist,roadlist,lengthlist):
         lengthh = ourroad[index][4]
         roadlist.append(road+"\n")
         if road not in taaa203:
-            gidlist.append(numGid)
             numGid = 0
             taaa203.append(road)
 
         if road in taaa203:
             numGid = numGid+1
-            gidlist.append(str(Gid)+"\n")
+            gidlist.append(str(Gid)+",")
             lengthlist.append(str(lengthh)+"\n")
         index+= 1
     gidlist.append(numGid)
-    print(gidlist)
-    print("เชื่อเส้นถนนที่หาเจอทั้งหมด  ="+str(len(taaa203)))
+    #print(gidlist)
+    print("ชื่อเส้นถนนที่หาเจอทั้งหมด  ="+str(len(taaa203)))
 
 
 def GidAll(ourroad):
@@ -74,7 +75,39 @@ def GidAll(ourroad):
     #print(ourGid)
     print("เราต้องทำ x y ทั้งหมด  ="+str(len(ourGid)))
 
-
+def createXY(): #หาค่า xy สับๆ
+    XYlist = [] # เส้นตรงเท่านั้น
+    Xstart = 1
+    Ystart = 1
+    Xend = 1
+    Yend = 5
+    lengthAll = [10,25,50,15] # แค่ 1 ถนน
+    persent = 0
+    reseultX = Xstart #จะเลื่อนไปเรื่อยๆจนถึง Xend
+    reseultY = Ystart
+    sumLength = sum(lengthAll)
+    XYlist.append((str(Xstart)+","+str(Ystart)))
+    for data in lengthAll:
+        if abs(Ystart-Yend) == 0:#แนวตั้ง
+            persentX = (data * abs(Xstart-Xend)) / sumLength # หาเปอเซนเทียบกับระยะห่าง xy แล้ว
+            reseultX = reseultX + persentX # ได้ค่า xy ตัวใหม่ สับๆ
+            XYlist.append((str(reseultX)+","+str(Yend)))
+            if reseultX == Xend:
+                break
+        elif abs(Xstart-Xend) == 0:#แนวนอน
+            persentY = (data * abs(Ystart-Yend)) / sumLength
+            reseultY = reseultY + persentY # ได้ค่า xy ตัวใหม่ สับๆ
+            XYlist.append((str(Xend)+","+str(reseultY)))
+            if reseultY == Yend:
+                break
+        else : #แนวเฉียง
+            persentX = (data * abs(Xstart-Xend)) / sumLength
+            persentY = (data * abs(Ystart-Yend)) / sumLength
+            reseultX = reseultX + persentX # ได้ค่า xy ตัวใหม่ สับๆ
+            reseultY = reseultY + persentY # ได้ค่า xy ตัวใหม่ สับๆ
+            XYlist.append((str(reseultX)+","+str(reseultY)))
+    if reseultY != Yend or reseultX != Xend:
+        print("error นาจา")
 
 def writetxt(file,ourroad):
     for data in ourroad :
@@ -104,6 +137,14 @@ def main():
     writetxt(file,gidlist)
     file = open('lengthlist.txt','w')
     writetxt(file,lengthlist)
+    file = open('testplot.txt','w')
+    i=0
+    while i < len(ourroad) : 
+        data = str(ourroad[i][2])+','+str(ourroad[i][3])+ ','
+        data = str(data)
+        file.write(data)
+        i+=1
+    
 
 
 
@@ -112,16 +153,6 @@ def main():
 #      listlat.append(data2[0])
 #      listlon.append(data2[1])
 
-
-file = open('testplot.txt','w')
-i=0
-while i < len(ourroad) : 
-    data = str(ourroad[i][2])+','+str(ourroad[i][3])+ ','
-    data = str(data)
-    file.write(data)
-    i+=1
-
-file.close()
 
 
 
