@@ -105,5 +105,25 @@ def main():
     file = open('lengthlist.txt','w')
     writetxt(file,lengthlist)
 
+
+
+# for data1 in lines :
+#      data2 = data1.split(", ")
+#      listlat.append(data2[0])
+#      listlon.append(data2[1])
+
+
+file = open('testplot.txt','w')
+i=0
+while i < len(ourroad) : 
+    data = str(ourroad[i][2])+','+str(ourroad[i][3])+ ','
+    data = str(data)
+    file.write(data)
+    i+=1
+
+file.close()
+
+
+
 if __name__=="__main__":
     main()
