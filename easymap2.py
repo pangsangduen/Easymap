@@ -40,28 +40,28 @@ def Ourroad(road,nameroadlist,ourroad):
         j=j+1
         if nameroadlist[j][0].endswith(road) :
             ourroad.append(nameroadlist[j])
-    print(ourroad)
+    #print(ourroad)
 
-def  CutMap(ourroad,taaa203,gidlist,roadlist,lengthlist):
-    index = 0
-    numGid = 0
-    while index < len(ourroad):
-        road = ourroad[index][0]
-        Gid = ourroad[index][1]
-        lengthh = ourroad[index][4]
-        roadlist.append(road+"\n")
-        if road not in taaa203:
-            numGid = 0
-            taaa203.append(road)
+# def  CutMap(ourroad,taaa203,gidlist,roadlist,lengthlist):
+#     index = 0
+#     numGid = 0
+#     while index < len(ourroad):
+#         road = ourroad[index][0]
+#         Gid = ourroad[index][1]
+#         lengthh = ourroad[index][4]
+#         roadlist.append(road+"\n")
+#         if road not in taaa203:
+#             numGid = 0
+#             taaa203.append(road)
 
-        if road in taaa203:
-            numGid = numGid+1
-            gidlist.append(str(Gid)+",")
-            lengthlist.append(str(lengthh)+"\n")
-        index+= 1
-    gidlist.append(numGid)
-    #print(gidlist)
-    print("ชื่อเส้นถนนที่หาเจอทั้งหมด  ="+str(len(taaa203)))
+#         if road in taaa203:
+#             numGid = numGid+1
+#             gidlist.append(str(Gid)+",")
+#             lengthlist.append(str(lengthh)+"\n")
+#         index+= 1
+#     gidlist.append(numGid)
+#     #print(gidlist)
+#     print("ชื่อเส้นถนนที่หาเจอทั้งหมด  ="+str(len(taaa203)))
 
 
 def GidAll(ourroad):
@@ -82,7 +82,6 @@ def createXY(): #หาค่า xy สับๆ
     Xend = 1
     Yend = 5
     lengthAll = [10,25,50,15] # แค่ 1 ถนน
-    persent = 0
     reseultX = Xstart #จะเลื่อนไปเรื่อยๆจนถึง Xend
     reseultY = Ystart
     sumLength = sum(lengthAll)
@@ -109,6 +108,34 @@ def createXY(): #หาค่า xy สับๆ
     if reseultY != Yend or reseultX != Xend:
         print("error นาจา")
 
+def prangNode(test,filepath):
+    with open(filepath) as fp:  
+        line = fp.readline()
+        cnt = 1
+        while line:
+            road=line.strip()
+            test.append(str(road))
+            line = fp.readline()
+            cnt += 1
+        #print(test)
+
+def createOurFnodeTnode(nameroadlist,gidlist,roadlist,lengthlist,Fnode,Tnode,test,ourroad):
+    a=0
+    while a < len(ourroad):
+        # print(nameroadlist[a][2])
+        if str(ourroad[a][2]) in test and str(ourroad[a][3]) in test :
+            print (a)
+            gidlist.append(str(ourroad[a][1])+'\n')
+            roadlist.append(str(ourroad[a][0])+'\n')
+            lengthlist.append(str(ourroad[a][4])+'\n')
+            Fnode.append(str(ourroad[a][2])+'\n')
+            Tnode.append(str(ourroad[a][3])+'\n')
+        a=a+1
+
+
+
+    
+
 def writetxt(file,ourroad):
     for data in ourroad :
         data = str(data)
@@ -116,6 +143,9 @@ def writetxt(file,ourroad):
     file.close()
 
 def main():
+    Fnode = []
+    Tnode = []
+    test = []
     nameroadlist = []
     result=[]
     datafromsheet = []
@@ -128,22 +158,39 @@ def main():
     file = open('testfile.txt','w')
     sql(result,nameroadlist)
     ReadtxtToList(filepath,datafromsheet,nameroadlist,ourroad)
-    CutMap(ourroad,taaa203,gidlist,roadlist,lengthlist)
+    # CutMap(ourroad,taaa203,gidlist,roadlist,lengthlist)
     writetxt(file,ourroad)
-    GidAll(ourroad)
+    # GidAll(ourroad)
+    # file = open('roadlist.txt','w')
+    # writetxt(file,roadlist)
+    # file = open('gidlist.txt','w')
+    # writetxt(file,gidlist)
+    # file = open('lengthlist.txt','w')
+    # writetxt(file,lengthlist)
+    # file = open('testplot.txt','w')
+    # i=0
+    # while i < len(ourroad) : 
+    #     data = str(ourroad[i][2])+','+str(ourroad[i][3])+ ','
+    #     data = str(data)
+    #     file.write(data)
+    #     i+=1
+    filepath = 'node.txt'
+    prangNode(test,filepath)
+    file = open('node2.txt','w')
+    writetxt(file,str(test)+",")
+    createOurFnodeTnode(nameroadlist,gidlist,roadlist,lengthlist,Fnode,Tnode,test,ourroad)
     file = open('roadlist.txt','w')
     writetxt(file,roadlist)
     file = open('gidlist.txt','w')
     writetxt(file,gidlist)
+    file = open('Tnodelist.txt','w')
+    writetxt(file,Tnode)
+    file = open('Fnodelist.txt','w')
+    writetxt(file,Fnode)
     file = open('lengthlist.txt','w')
     writetxt(file,lengthlist)
-    file = open('testplot.txt','w')
-    i=0
-    while i < len(ourroad) : 
-        data = str(ourroad[i][2])+','+str(ourroad[i][3])+ ','
-        data = str(data)
-        file.write(data)
-        i+=1
+
+    
     
 
 
