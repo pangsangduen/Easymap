@@ -91,15 +91,14 @@ def createXY(Xstart, Ystart, Xend, Yend, sumlenn, Nodefinal, Pointfinal):  # ห
     # Pointfinal.append("P"+str(Nodefinal[0])+","+str(reseultX)+" "+str(Yend)+'\n')
     Pointfinal.append(
         "P"+str(Nodefinal[0])+","+str(reseultX)+" "+str(Yend)+","+"2"+'\n')
-    b = 0
+    b = 1 
     for data in sumlenn:
         if abs(Ystart-Yend) == 0:  # แนวตั้ง
             # หาเปอเซนเทียบกับระยะห่าง xy แล้ว
             persentX = (data * abs(Xstart-Xend)) / sumLength
             reseultX = reseultX + persentX  # ได้ค่า xy ตัวใหม่ สับๆ
             # Pointfinal.append("P"+str(Nodefinal[b])+","+str(reseultX)+" "+str(Yend)+'\n')
-            Pointfinal.append(
-                "P"+str(Nodefinal[b])+","+str(reseultX)+" "+str(Yend)+","+"2"+'\n')
+            Pointfinal.append("P"+str(Nodefinal[b])+","+str(reseultX)+" "+str(Yend)+","+"2"+'\n')
             b = b+1
             if reseultX == Xend:
                 break
@@ -107,8 +106,7 @@ def createXY(Xstart, Ystart, Xend, Yend, sumlenn, Nodefinal, Pointfinal):  # ห
             persentY = (data * abs(Ystart-Yend)) / sumLength
             reseultY = reseultY + persentY  # ได้ค่า xy ตัวใหม่ สับๆ
             # Pointfinal.append("P"+str(Nodefinal[b])+","+str(Xend)+" "+str(reseultY)+'\n')
-            Pointfinal.append(
-                "P"+str(Nodefinal[b])+","+str(Xend)+" "+str(reseultY)+","+"2"+'\n')
+            Pointfinal.append("P"+str(Nodefinal[b])+","+str(Xend)+" "+str(reseultY)+","+"2"+'\n')
             b = b+1
             if reseultY == Yend:
                 break
@@ -118,15 +116,13 @@ def createXY(Xstart, Ystart, Xend, Yend, sumlenn, Nodefinal, Pointfinal):  # ห
             reseultX = reseultX + persentX  # ได้ค่า xy ตัวใหม่ สับๆ
             reseultY = reseultY + persentY  # ได้ค่า xy ตัวใหม่ สับๆ
             # Pointfinal.append("P"+str(Nodefinal[b])+","+str(reseultX)+" "+str(reseultY)+'\n')
-            Pointfinal.append(
-                "P"+str(Nodefinal[b])+","+str(reseultX)+" "+str(reseultY)+","+"2"+'\n')
+            Pointfinal.append("P"+str(Nodefinal[b])+","+str(reseultX)+" "+str(reseultY)+","+"2"+'\n')
             b = b+1
     if reseultY != Yend or reseultX != Xend:
         print(len(Pointfinal))
         print(b)
         # Pointfinal[len(Pointfinal)-1]=("P"+str(Nodefinal[b-1])+","+str(Xend)+" "+str(Yend)+'\n')
-        Pointfinal[len(Pointfinal)-1] = ("P"+str(Nodefinal[b-1]) +
-                                         ","+str(Xend)+" "+str(Yend)+","+"2"+'\n')
+        Pointfinal[len(Pointfinal)-1] = ("P"+str(Nodefinal[b-1])+","+str(Xend)+" "+str(Yend)+","+"2"+'\n')
 
 # เหลือเอาเข้าทั้งหมดแบบtxt
 
@@ -226,12 +222,15 @@ def MatchTxtWithLatlon(listtt, checkerrorlist, counterror, testRoadIDwithQgis, l
     URL = "https://mmmap15.longdo.com/mmroute/json/route/raw?flon=" + \
         lonstart+"&flat="+latstart+"&tlon="+lonEnd+"&tlat="+latEnd
     CallData = requests.get(URL)
+    # datafromWWW = [{'id': 554528, 'dir': 0}, {'id': 385389, 'dir': 1}]
     datafromWWW = CallData.json()  # ได้ข้อมูลทั้งหมดแล้ว
     print(len(datafromWWW))
     count = 0
     TnodeCurrent = 0
     FnodeCurrent = 0
     check = 0
+    linefinal2 = []
+    checkerrorlist2 =[]
     c = False
     print(lonstart)
     print(latstart)
@@ -248,43 +247,42 @@ def MatchTxtWithLatlon(listtt, checkerrorlist, counterror, testRoadIDwithQgis, l
         for datao in OurroadFinal2:
             if int(datafromWWW[count]['id']) == int(datao[1]):
                 # linefinal.append(str(datao[1])+",P"+str(datao[2])+",P"+str(datao[3])+","+str(datafromWWW[count]['dir'])+'\n')
-                TnodeCurrent = int(datao[3])
                 FnodeCurrent = int(datao[2])
                 if FnodeCurrent == NodeStart:  # บางครั้งจะมีแบบ ตัวแรกที่เข้ามาไม่ใช่จุดเริ่มต้นที่เราต้องการเข้ามาได้ไงก็ไม่รู้ก็สร้างifนี้ไว้เช็คเพื่อตัดการerrorเคสนั้นออก
                     c = True
                     print(NodeStart)
                 if c and str(FnodeCurrent) not in Nodefinal:
-                    linefinal.append(str(datao[1])+",P"+str(datao[2])+",P"+str(datao[3])+'\n')
+                    linefinal2.append((datao[1],datao[2],datao[3]))
+                    #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
+                    TnodeCurrent = int(datao[3])
                     sumlenn.append(float(datao[4]))
                     Nodefinal.append(datao[2])
                     testRoadIDwithQgis.append(
                     str(datafromWWW[count]['id'])+",")
                     noterror = 1
-                # if TnodeCurrent == 1085109:
-                #     listtt.append(str(NodeStart)+","+str(NodeEnd)+'\n')
                 break
-            # if FnodeCurrent == NodeStart: #บางครั้งจะมีแบบ ตัวแรกที่เข้ามาไม่ใช่จุดเริ่มต้นที่เราต้องการเข้ามาได้ไงก็ไม่รู้ก็สร้างifนี้ไว้เช็คเพื่อตัดการerrorเคสนั้นออก
-            #     check = 1
+        count = count+1
         if TnodeCurrent == NodeEnd:
-            if str(TnodeCurrent) in Nodefinal :
-                Nodefinal.append(TnodeCurrent)
-                break
+            Nodefinal.append(TnodeCurrent)
+            for data in linefinal2:
+                linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))  
+                # linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+str(datafromWWW[count]['dir'])+'\n'))
+            checkerrorlist.append(checkerrorlist2)
+            break
 
         elif noterror != 1 and c:
-            print("ทำไมroadไอดี " +
-                  str(datafromWWW[count]['id'])+" ไม่มีในdatabase")
-            checkerrorlist.append(
+            checkerrorlist2.append(
                 ("ทำไมroadไอดี "+str(datafromWWW[count]['id'])+" ไม่มีในdatabase")+'\n')
             counterror.append("1")
             # print(counterror)
-
-        count = count+1
-
-    # print(sumlenn)
-
-    # id = datafromWWW[1]['id']
-    # print(id)
-    # print(datafromWWW)
+        if len(datafromWWW) == count and TnodeCurrent != NodeEnd :
+            count = 0
+            linefinal2.clear()
+            sumlenn.clear()
+            Nodefinal.clear()
+            counterror.clear()
+            checkerrorlist2.clear()
+            datafromWWW.remove(datafromWWW[0])
 
 
 def writetxt(file, ourroad):
