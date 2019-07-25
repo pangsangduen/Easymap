@@ -83,46 +83,51 @@ def Ourroad(road, nameroadlist, ourroad):
 #     #print(ourGid)
 #     print("เราต้องทำ x y ทั้งหมด  ="+str(len(ourGid)))
 
-def createXY(Xstart, Ystart, Xend, Yend, sumlenn, Nodefinal, Pointfinal):  # หาค่า xy สับๆ
-    reseultX = Xstart  # จะเลื่อนไปเรื่อยๆจนถึง Xend
-    reseultY = Ystart
-    sumLength = sum(sumlenn)
-    # Pointfinal.append("P"+str(Nodefinal[0])+","+str(reseultX)+" "+str(Yend)+'\n')
-    Pointfinal.append(
-        "P"+str(Nodefinal[0])+","+str(reseultX)+" "+str(Yend)+","+"2"+'\n')
-    b = 1 
-    for data in sumlenn:
-        if abs(Ystart-Yend) == 0:  # แนวตั้ง
-            # หาเปอเซนเทียบกับระยะห่าง xy แล้ว
-            persentX = (data * abs(Xstart-Xend)) / sumLength
-            reseultX = reseultX + persentX  # ได้ค่า xy ตัวใหม่ สับๆ
-            # Pointfinal.append("P"+str(Nodefinal[b])+","+str(reseultX)+" "+str(Yend)+'\n')
-            Pointfinal.append("P"+str(Nodefinal[b])+","+str(reseultX)+" "+str(Yend)+","+"2"+'\n')
-            b = b+1
-            if reseultX == Xend:
-                break
-        elif abs(Xstart-Xend) == 0:  # แนวนอน
-            persentY = (data * abs(Ystart-Yend)) / sumLength
-            reseultY = reseultY + persentY  # ได้ค่า xy ตัวใหม่ สับๆ
-            # Pointfinal.append("P"+str(Nodefinal[b])+","+str(Xend)+" "+str(reseultY)+'\n')
-            Pointfinal.append("P"+str(Nodefinal[b])+","+str(Xend)+" "+str(reseultY)+","+"2"+'\n')
-            b = b+1
-            if reseultY == Yend:
-                break
-        else:  # แนวเฉียง
-            persentX = (data * abs(Xstart-Xend)) / sumLength
-            persentY = (data * abs(Ystart-Yend)) / sumLength
-            reseultX = reseultX + persentX  # ได้ค่า xy ตัวใหม่ สับๆ
-            reseultY = reseultY + persentY  # ได้ค่า xy ตัวใหม่ สับๆ
-            # Pointfinal.append("P"+str(Nodefinal[b])+","+str(reseultX)+" "+str(reseultY)+'\n')
-            Pointfinal.append("P"+str(Nodefinal[b])+","+str(reseultX)+" "+str(reseultY)+","+"2"+'\n')
-            b = b+1
-    if reseultY != Yend or reseultX != Xend:
-        print(len(Pointfinal))
-        print(b)
-        # Pointfinal[len(Pointfinal)-1]=("P"+str(Nodefinal[b-1])+","+str(Xend)+" "+str(Yend)+'\n')
-        Pointfinal[len(Pointfinal)-1] = ("P"+str(Nodefinal[b-1])+","+str(Xend)+" "+str(Yend)+","+"2"+'\n')
-
+def createXY(lonstart,latstart,Xstart,lonEnd,latEnd, Ystart, Xend, Yend, sumlenn, Nodefinal, Pointfinal):  # หาค่า xy สับๆ
+    try:
+        reseultX = Xstart  # จะเลื่อนไปเรื่อยๆจนถึง Xend
+        reseultY = Ystart
+        sumLength = sum(sumlenn)
+        # Pointfinal.append("P"+str(Nodefinal[0])+","+str(reseultX)+" "+str(Yend)+'\n')
+        Pointfinal.append(
+            "P"+str(Nodefinal[0])+","+str(reseultX)+" "+str(Yend)+","+"2"+'\n')
+        b = 1 
+        for data in sumlenn:
+            if abs(Ystart-Yend) == 0:  # แนวตั้ง
+                # หาเปอเซนเทียบกับระยะห่าง xy แล้ว
+                persentX = (data * abs(Xstart-Xend)) / sumLength
+                reseultX = reseultX + persentX  # ได้ค่า xy ตัวใหม่ สับๆ
+                # Pointfinal.append("P"+str(Nodefinal[b])+","+str(reseultX)+" "+str(Yend)+'\n')
+                Pointfinal.append("P"+str(Nodefinal[b])+","+str(reseultX)+" "+str(Yend)+","+"2"+'\n')
+                b = b+1
+                if reseultX == Xend:
+                    break
+            elif abs(Xstart-Xend) == 0:  # แนวนอน
+                persentY = (data * abs(Ystart-Yend)) / sumLength
+                reseultY = reseultY + persentY  # ได้ค่า xy ตัวใหม่ สับๆ
+                # Pointfinal.append("P"+str(Nodefinal[b])+","+str(Xend)+" "+str(reseultY)+'\n')
+                Pointfinal.append("P"+str(Nodefinal[b])+","+str(Xend)+" "+str(reseultY)+","+"2"+'\n')
+                b = b+1
+                if reseultY == Yend:
+                    break
+            else:  # แนวเฉียง
+                persentX = (data * abs(Xstart-Xend)) / sumLength
+                persentY = (data * abs(Ystart-Yend)) / sumLength
+                reseultX = reseultX + persentX  # ได้ค่า xy ตัวใหม่ สับๆ
+                reseultY = reseultY + persentY  # ได้ค่า xy ตัวใหม่ สับๆ
+                # Pointfinal.append("P"+str(Nodefinal[b])+","+str(reseultX)+" "+str(reseultY)+'\n')
+                Pointfinal.append("P"+str(Nodefinal[b])+","+str(reseultX)+" "+str(reseultY)+","+"2"+'\n')
+                b = b+1
+        if reseultY != Yend or reseultX != Xend:
+            print(len(Pointfinal))
+            print(b)
+            # Pointfinal[len(Pointfinal)-1]=("P"+str(Nodefinal[b-1])+","+str(Xend)+" "+str(Yend)+'\n')
+            Pointfinal[len(Pointfinal)-1] = ("P"+str(Nodefinal[b-1])+","+str(Xend)+" "+str(Yend)+","+"2"+'\n')
+    except:
+        print(lonstart)
+        print(latstart)
+        print(lonEnd)
+        print(latEnd)
 # เหลือเอาเข้าทั้งหมดแบบtxt
 
 
@@ -200,11 +205,7 @@ def createOurFnodeTnode(nameroadlist, roadIDlist, roadlist, lengthlist, Fnode, T
 #     if check != 1:
 #          print("error จบไม่ตรง")
 
-def MatchTxtWithLatlon(listtt, checkerrorlist, counterror, testRoadIDwithQgis, linefinal, Nodefinal, sumlenn, NodeStart, Xstart, Ystart, NodeEnd, Xend, Yend, latlonNodelist, listFromFinalStart, listFromFinalEnd, OurroadFinal2):
-    lonstart = ""
-    latstart = " "
-    lonEnd = " "
-    latEnd = " "
+def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, counterror, testRoadIDwithQgis, linefinal, Nodefinal, sumlenn, NodeStart, Xstart, Ystart, NodeEnd, Xend, Yend, latlonNodelist, listFromFinalStart, listFromFinalEnd, OurroadFinal2):
 
     for data in latlonNodelist:
         if NodeStart == int(data[2]):
@@ -270,9 +271,12 @@ def MatchTxtWithLatlon(listtt, checkerrorlist, counterror, testRoadIDwithQgis, l
             break
 
         elif noterror != 1 and c:
-            checkerrorlist2.append(
-                ("ทำไมroadไอดี "+str(datafromWWW[count]['id'])+" ไม่มีในdatabase")+'\n')
-            counterror.append("1")
+            try:
+                checkerrorlist2.append(
+                    ("ทำไมroadไอดี "+str(datafromWWW[count]['id'])+" ไม่มีในdatabase")+'\n')
+                counterror.append("1")
+            except:
+                print("ไม่มีข้อมูลใน datafromWWW")
             # print(counterror)
         if len(datafromWWW) == count and TnodeCurrent != NodeEnd :
             count = 0
@@ -317,6 +321,10 @@ def main():
     OurroadFinal2 = []
     testRoadIDwithQgis = []
     listtt = []
+    lonstart = ""
+    latstart = " "
+    lonEnd = " "
+    latEnd = " "
     # filepath = 'nameroad1.txt'
     # file = open('testfile.txt','w')
     # sql(result,nameroadlist)
@@ -390,6 +398,7 @@ def main():
     countLineFromFinalXY = 0
     counterror = []
     counterrorr = 0
+
     # nameRoadSame = []
     # nameRoad = []
     filepath = 'FinalXY.txt'
@@ -411,10 +420,9 @@ def main():
             line = fp.readline()  # อ่านบรรทัดที่ 3 แบบทิ้งๆไป
             sumlenn = []
             Nodefinal = []
-            MatchTxtWithLatlon(listtt, checkerrorlist, counterror, testRoadIDwithQgis, linefinal, Nodefinal, sumlenn, NodeStart,
-                               Xstart, Ystart, NodeEnd, Xend, Yend, latlonNodelist, listFromFinalStart, listFromFinalEnd, OurroadFinal2)
-            createXY(Xstart, Ystart, Xend, Yend,
-                     sumlenn, Nodefinal, Pointfinal)
+            MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, counterror, testRoadIDwithQgis, linefinal, Nodefinal, sumlenn, NodeStart, Xstart, Ystart, NodeEnd, Xend, Yend, latlonNodelist, listFromFinalStart, listFromFinalEnd, OurroadFinal2)
+            createXY(lonstart,latstart,Xstart,lonEnd,latEnd, Ystart, Xend, Yend, sumlenn, Nodefinal, Pointfinal)  # หาค่า xy สับๆ
+
             countLineFromFinalXY = countLineFromFinalXY + 3
             if len(counterror) > 0:
                 counterrorr = counterrorr + 1
