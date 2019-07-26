@@ -44,12 +44,12 @@ def getLatLon(nodeFrom , nodeTo):
         print(response)
         for result in response:
             AllroadId.append(result["id"])
-
-    file = open('devboss.txt', 'w')
+    outputfile = 'devboss.txt'
+    file = open(outputfile, 'w')
     for data in AllroadId:
         file.write(str(data)+",")
     file.close()
-    print("Write Success.")
+    print("Done Write File => "+outputfile)
 
 
 if __name__ == "__main__":
