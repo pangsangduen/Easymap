@@ -42,7 +42,6 @@ def Ourroad(road,nameroadlist,ourroad):
         j=j+1
         if nameroadlist[j][0].endswith(road) :
             ourroad.append(nameroadlist[j])
-    #print(ourroad)
 
 # def  CutMap(ourroad,taaa203,gidlist,roadlist,lengthlist):
 #     index = 0
@@ -127,16 +126,23 @@ def createOurFnodeTnode(nameroadlist,roadIDlist,roadlist,lengthlist,Fnode,Tnode,
     a=0
     while a < len(ourroad):
         # print(nameroadlist[a][2])
-        if str(ourroad[a][2]) in test and str(ourroad[a][3]) in test :
-            #print (a)
-            #roadIDlist.append(str(ourroad[a][1])+'\n')
-            #roadlist.append(str(ourroad[a][0])+'\n')
-            #lengthlist.append(str(ourroad[a][4])+'\n')
-            Fnode.append(str(ourroad[a][2])+',')
-            Tnode.append(str(ourroad[a][3])+',')
-            #FTnode.append((ourroad[a][2],ourroad[a][3]))
-            OurroadFinal.append((ourroad[a][0],ourroad[a][1],ourroad[a][2],ourroad[a][3],ourroad[a][4]))
-            OurroadFinal1.append(str(ourroad[a][0])+","+str(ourroad[a][1])+","+str(ourroad[a][2])+","+str(ourroad[a][3])+","+str(ourroad[a][4])+'\n')
+        #อยาก คัดตาม node ก็เปิด
+        # if str(ourroad[a][2]) in test and str(ourroad[a][3]) in test :
+        #     #print (a)
+        #     #roadIDlist.append(str(ourroad[a][1])+'\n')
+        #     #roadlist.append(str(ourroad[a][0])+'\n')
+        #     #lengthlist.append(str(ourroad[a][4])+'\n')
+        #     Fnode.append(str(ourroad[a][2])+',')
+        #     Tnode.append(str(ourroad[a][3])+',')
+        #     #FTnode.append((ourroad[a][2],ourroad[a][3]))
+        #     OurroadFinal.append((ourroad[a][0],ourroad[a][1],ourroad[a][2],ourroad[a][3],ourroad[a][4]))
+        #     OurroadFinal1.append(str(ourroad[a][0])+","+str(ourroad[a][1])+","+str(ourroad[a][2])+","+str(ourroad[a][3])+","+str(ourroad[a][4])+'\n')
+        # a=a+1
+
+        Fnode.append(str(ourroad[a][2])+',')
+        Tnode.append(str(ourroad[a][3])+',')
+        OurroadFinal.append((ourroad[a][0],ourroad[a][1],ourroad[a][2],ourroad[a][3],ourroad[a][4]))
+        OurroadFinal1.append(str(ourroad[a][0])+","+str(ourroad[a][1])+","+str(ourroad[a][2])+","+str(ourroad[a][3])+","+str(ourroad[a][4])+'\n')
         a=a+1
     #print(OurroadFinal[0][0])
 
@@ -183,47 +189,47 @@ def createOurFnodeTnode(nameroadlist,roadIDlist,roadlist,lengthlist,Fnode,Tnode,
 #     if check != 1:
 #          print("error จบไม่ตรง")
 
-def MatchTxtWithLatlon(testRoadIDwithQgis,linefinal,Nodefinal,sumlenn,NodeStart,Xstart,Ystart,NodeEnd,Xend,Yend,latlonNodelist,listFromFinalStart,listFromFinalEnd,OurroadFinal2):
-    lonstart = ""
-    latstart = " "
-    lonEnd = " "
-    latEnd = " "
+# def MatchTxtWithLatlon(testRoadIDwithQgis,linefinal,Nodefinal,sumlenn,NodeStart,Xstart,Ystart,NodeEnd,Xend,Yend,latlonNodelist,listFromFinalStart,listFromFinalEnd,OurroadFinal2):
+#     lonstart = ""
+#     latstart = " "
+#     lonEnd = " "
+#     latEnd = " "
 
-    for data in latlonNodelist:
-        if NodeStart == int(data[2]):
-            lonstart = str(data[0])
-            latstart = str(data[1])
-            # listFromFinalStart.append(data[0]) # ได้ lonstart = listFromFinalStart[0] 
-            # listFromFinalStart.append(data[1]) # latstart = listFromFinalStart[1]
-        if NodeEnd == int(data[2]):
-            lonEnd = str(data[0])
-            latEnd = str(data[1])
-            # listFromFinalEnd.append(data[0]) # ได้ lonEnd = listFromFinalEnd[0] 
-            # listFromFinalEnd.append(data[1]) # ได้ latEnd = listFromFinalEnd[1] 
+#     for data in latlonNodelist:
+#         if NodeStart == int(data[2]):
+#             lonstart = str(data[0])
+#             latstart = str(data[1])
+#             # listFromFinalStart.append(data[0]) # ได้ lonstart = listFromFinalStart[0] 
+#             # listFromFinalStart.append(data[1]) # latstart = listFromFinalStart[1]
+#         if NodeEnd == int(data[2]):
+#             lonEnd = str(data[0])
+#             latEnd = str(data[1])
+#             # listFromFinalEnd.append(data[0]) # ได้ lonEnd = listFromFinalEnd[0] 
+#             # listFromFinalEnd.append(data[1]) # ได้ latEnd = listFromFinalEnd[1] 
 
-    URL = "https://mmmap15.longdo.com/mmroute/json/route/raw?flon="+lonstart+"&flat="+latstart+"&tlon="+lonEnd+"&tlat="+latEnd
-    CallData = requests.get(URL)
-    datafromWWW = CallData.json() # ได้ข้อมูลทั้งหมดแล้ว
-    count = 0
-    TnodeCurrent = 0
-    while count < len(datafromWWW):
-        noterror = 0
-        for datao in OurroadFinal2:
-            if int(datafromWWW[count]['id']) == int(datao[1]):
-                linefinal.append(str(datao[1])+",P"+str(datao[2])+",P"+str(datao[3])+","+str(datafromWWW[count]['dir'])+'\n')
-                sumlenn.append(float(datao[4]))
-                Nodefinal.append(datao[2])
-                testRoadIDwithQgis.append(str(datafromWWW[count]['id'])+",")
-                noterror = 1
-                TnodeCurrent = int(datao[3])
+#     URL = "https://mmmap15.longdo.com/mmroute/json/route/raw?flon="+lonstart+"&flat="+latstart+"&tlon="+lonEnd+"&tlat="+latEnd
+#     CallData = requests.get(URL)
+#     datafromWWW = CallData.json() # ได้ข้อมูลทั้งหมดแล้ว
+#     count = 0
+#     TnodeCurrent = 0
+#     while count < len(datafromWWW):
+#         noterror = 0
+#         for datao in OurroadFinal2:
+#             if int(datafromWWW[count]['id']) == int(datao[1]):
+#                 linefinal.append(str(datao[1])+",P"+str(datao[2])+",P"+str(datao[3])+","+str(datafromWWW[count]['dir'])+'\n')
+#                 sumlenn.append(float(datao[4]))
+#                 Nodefinal.append(datao[2])
+#                 testRoadIDwithQgis.append(str(datafromWWW[count]['id'])+",")
+#                 noterror = 1
+#                 TnodeCurrent = int(datao[3])
         
-        if TnodeCurrent == NodeEnd:
-            Nodefinal.append(TnodeCurrent)
-            break
-        elif noterror != 1:
-            print("ทำไมroadไอดี"+str(datafromWWW[count]['id'])+"ไม่มีในdatabase")
-        count = count+1
-    print(sumlenn)
+#         if TnodeCurrent == NodeEnd:
+#             Nodefinal.append(TnodeCurrent)
+#             break
+#         elif noterror != 1:
+#             print("ทำไมroadไอดี"+str(datafromWWW[count]['id'])+"ไม่มีในdatabase")
+#         count = count+1
+#     print(sumlenn)
 
 
 
@@ -333,6 +339,8 @@ def main():
     writetxt(file,Tnode)
     file = open('Fnodelist.txt','w')
     writetxt(file,Fnode)
+    # print(ourroad)
+    # print(len(ourroad))
     # file = open('lengthlist.txt','w')
     # writetxt(file,lengthlist)
     # filepath = 'node.txt'     
