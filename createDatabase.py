@@ -429,23 +429,23 @@ def main():
     file = open('OurroadFinal.txt','w')
     writetxt(file,OurroadFinal1)
     #----------------------------------------------------------
-    # latlonNodelist =[]
-    # filepath = 'latlonFromNode.txt'   
-    # # count =0 
-    # with open(filepath) as fp:  
-    #     line = fp.readline()
-    #     while line:
-    #         # count = count +1
-    #         # print(count)
-    #         line = line.strip("Point").strip()
-    #         line=line.strip("(").strip()
-    #         line = line.split(' ')
-    #         latitem = line[1].split(')\t')[0] 
-    #         nodeitem = line[1].split(')\t')[1]    
-    #         latlonNodelist.append((str(line[0])+","+str(latitem)+","+str(nodeitem)+'\n'))
-    #         line = fp.readline()
-    # file = open('latlonFinishNodelist.txt','w')
-    # writetxt(file,latlonNodelist)
+    latlonNodelist =[]
+    filepath = 'latlonFromNode.txt'   
+    # count =0 
+    with open(filepath) as fp:  
+        line = fp.readline()
+        while line:
+            # count = count +1
+            # print(count)
+            line = line.strip("Point").strip()
+            line=line.strip("(").strip()
+            line = line.split(' ')
+            latitem = line[1].split(')\t')[0] 
+            nodeitem = line[1].split(')\t')[1]    
+            latlonNodelist.append((str(line[0])+","+str(latitem)+","+str(nodeitem)+'\n'))
+            line = fp.readline()
+    file = open('latlonFinishNodelist.txt','w')
+    writetxt(file,latlonNodelist)
     #------^^--แปลง txt Point (100.7110034185211731 13.99387910510712807)	1197198 เป็น lat,lon,point
 
 

@@ -429,13 +429,19 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
         counterror.clear()
         counterror.extend(counterror2)
         checkerrorlist.extend(checkerrorlist3)
-        for data in linefinal3 :
-            linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))  
+        if len(counterror) < 1: #ตัดตัวที่error
+            for data in linefinal3 :
+                linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))  
+        elif len(counterror) >= 1:
+            Nodefinal.clear() 
         # linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+str(datafromWWW[count]['dir'])+'\n'))
     elif (sum(sumlenn2) >= sum(sumlenn) and sum(sumlenn)!=0) or sum(sumlenn2) == 0 :
         checkerrorlist.extend(checkerrorlist1)
-        for data in linefinal2 :
-            linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))  
+        if len(counterror) < 1: #ตัดตัวที่error
+            for data in linefinal2 :
+                linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))  
+        elif len(counterror) >= 1:
+            Nodefinal.clear()
         # linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+str(datafromWWW[count]['dir'])+'\n'))
     else:
         checkerrorlist.append("ไปไม่ได้สักทาง")
