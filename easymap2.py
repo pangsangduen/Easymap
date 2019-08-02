@@ -1,4 +1,5 @@
-import os  # เพราะเป็น os
+# This Python file uses the following encoding: utf-8
+import os
 import psycopg2
 import math
 import requests
