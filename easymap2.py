@@ -208,6 +208,7 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                 # linefinal.append(str(datao[1])+",P"+str(datao[2])+",P"+str(datao[3])+","+str(datafromWWW[count]['dir'])+'\n')
                 FnodeCurrent = int(datao[2])
                 TnodeCurrent = int(datao[3])
+                # if FnodeCurrent == NodeStart or TnodeCurrent == NodeStart:
                 if FnodeCurrent == NodeStart:  # บางครั้งจะมีแบบ ตัวแรกที่เข้ามาไม่ใช่จุดเริ่มต้นที่เราต้องการเข้ามาได้ไงก็ไม่รู้ก็สร้างifนี้ไว้เช็คเพื่อตัดการerrorเคสนั้นออก
                     c = True
                     # print(NodeStart)
@@ -220,7 +221,7 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                     testRoadIDwithQgis.append(
                     str(datafromWWW[count]['id'])+",")
                     noterror = 1
-                if noterror != 1 and len(Nodefinal) != 1 and c: #กันการเปลี่ยน f node t nodeตรงกลาง
+                if noterror != 1 and c: #กันการเปลี่ยน f node t nodeตรงกลาง #and len(Nodefinal) != 1 
                     linefinal2.append((datao[1],datao[2],datao[3])) #roadID Fnode Tnode
                     #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
                     TnodeCurrent = int(datao[3])
@@ -229,7 +230,7 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                     testRoadIDwithQgis.append(
                     str(datafromWWW[count]['id'])+",")
                     noterror = 1
-                if TnodeCurrent == NodeStart and c: #วนกลับมาจุดเดิม
+                if TnodeCurrent == NodeStart and c : #วนกลับมาจุดเดิม
                     num = 0
                     for dataa in linefinal2:
                         if int(datafromWWW[num]['id']) == int(dataa[0]):
@@ -245,7 +246,7 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                 break
         count = count+1
         b = 0
-        if TnodeCurrent == NodeEnd:
+        if TnodeCurrent == NodeEnd or (FnodeCurrent == NodeEnd and len(Nodefinal)> 1):
             Nodefinal.append(TnodeCurrent)
             i = 0
             if len(linefinal2) == 0:
@@ -333,7 +334,8 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                 # linefinal.append(str(datao[1])+",P"+str(datao[2])+",P"+str(datao[3])+","+str(datafromWWW[count]['dir'])+'\n')
                 FnodeCurrent = int(datao[2])
                 TnodeCurrent = int(datao[3])
-                if FnodeCurrent == NodeStart:  # บางครั้งจะมีแบบ ตัวแรกที่เข้ามาไม่ใช่จุดเริ่มต้นที่เราต้องการเข้ามาได้ไงก็ไม่รู้ก็สร้างifนี้ไว้เช็คเพื่อตัดการerrorเคสนั้นออก
+                if FnodeCurrent == NodeStart :
+                # if FnodeCurrent == NodeStart or TnodeCurrent == NodeStart : # บางครั้งจะมีแบบ ตัวแรกที่เข้ามาไม่ใช่จุดเริ่มต้นที่เราต้องการเข้ามาได้ไงก็ไม่รู้ก็สร้างifนี้ไว้เช็คเพื่อตัดการerrorเคสนั้นออก
                     c = True
                     # print(NodeStart)
                 if c and str(FnodeCurrent) not in Nodefinal2:
@@ -345,7 +347,7 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                     testRoadIDwithQgis2.append(
                     str(datafromWWW[count]['id'])+",")
                     noterror = 1
-                if noterror != 1 and len(Nodefinal) != 1 and c : #กันการเปลี่ยน f node t nodeตรงกลาง
+                if noterror != 1 and c : #กันการเปลี่ยน f node t nodeตรงกลาง
                     linefinal3.append((datao[1],datao[2],datao[3])) #roadID Fnode Tnode
                     #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
                     TnodeCurrent = int(datao[3])
@@ -370,7 +372,7 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                 break
         count = count+1
         b = 0
-        if TnodeCurrent == NodeEnd:
+        if TnodeCurrent == NodeEnd or (FnodeCurrent == NodeEnd and len(Nodefinal)> 1):
             Nodefinal2.append(TnodeCurrent)
             i = 0
             if len(linefinal3) == 0:
@@ -418,33 +420,41 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                     checkerrorlist3.append("linefinal ไม่มีข้อมูล")
                 # print("ไม่มีข้อมูลใน datafromWWW")
             # print(counterror)
-
+    Nodefinal2.reverse()
+    sumlenn2.reverse()
+    linefinal3.reverse()
     if (sum(sumlenn2) < sum(sumlenn) and sum(sumlenn2)!=0)  or sum(sumlenn) == 0:
         sumlenn.clear()
         sumlenn.extend(sumlenn2)
         Nodefinal.clear()
-        Nodefinal.extend(Nodefinal2)
+        # Nodefinal.extend(Nodefinal2)
         testRoadIDwithQgis.clear()
         testRoadIDwithQgis.extend(testRoadIDwithQgis2)
         counterror.clear()
         counterror.extend(counterror2)
         checkerrorlist.extend(checkerrorlist3)
-        if len(counterror) < 1: #ตัดตัวที่error
-            for data in linefinal3 :
-                linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))  
-        elif len(counterror) >= 1:
-            Nodefinal.clear() 
+        for data in linefinal3 :
+            linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))
+            if data[1] not in Nodefinal:
+                Nodefinal.append(data[1])
+            if data[2] not in Nodefinal:
+                Nodefinal.append(data[2])
         # linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+str(datafromWWW[count]['dir'])+'\n'))
     elif (sum(sumlenn2) >= sum(sumlenn) and sum(sumlenn)!=0) or sum(sumlenn2) == 0 :
         checkerrorlist.extend(checkerrorlist1)
-        if len(counterror) < 1: #ตัดตัวที่error
-            for data in linefinal2 :
-                linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))  
-        elif len(counterror) >= 1:
-            Nodefinal.clear()
+        Nodefinal.clear()
+        for data in linefinal2 :
+            linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))  
+            if data[1] not in Nodefinal:
+                Nodefinal.append(data[1])
+            if data[2] not in Nodefinal:
+                Nodefinal.append(data[2])
         # linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+str(datafromWWW[count]['dir'])+'\n'))
     else:
         checkerrorlist.append("ไปไม่ได้สักทาง")
+
+
+
 
 
 
@@ -553,7 +563,7 @@ def main():
     countLineFromFinalXY = 0
     counterror = []
     counterrorr = 0
-
+    sumlongfoeline = []
     # nameRoadSame = []
     # nameRoad = []
     filepath = 'FinalXY.txt'
@@ -589,6 +599,7 @@ def main():
             checkerrorlist.append('\n')
             line = fp.readline()
 
+
     file = open('finalLine.txt', 'w')
     writetxt(file, linefinal)
     file = open('finalPoint.txt', 'w')
@@ -597,6 +608,113 @@ def main():
     writetxt(file, testRoadIDwithQgis)
     file = open('checkerrorlist.txt', 'w')
     writetxt(file, checkerrorlist)
+    sumlongfoeline = []
+    sumlongforpoint = []
+    testnew = []
+    a = ''
+    b = ''
+    c = ''
+    d = ''
+    e = ''
+    f1 = 0
+    f2 = 0
+    last1  = 0
+    last2 = 0
+    ii = 0
+    jj = 0
+    for datacut in linefinal:
+        datacut = datacut.strip('\n')
+        datacut = datacut.split(',')
+        sumlongfoeline.append(datacut)
+    for datap in Pointfinal:
+        datap = datap.strip('\n')
+        datap = datap.split(',')
+        sumlongforpoint.append(datap)
+    while ii < len(sumlongfoeline): #ตัดตัวซ้ำที่ติดกัน
+        if (ii+1) == len(sumlongfoeline):
+            break
+        if sumlongfoeline[ii] == sumlongfoeline[ii+1]:
+            sumlongfoeline.remove(sumlongfoeline[ii+1])
+        ii = ii +1
+    while jj < len(sumlongforpoint):
+        if (jj+1) == len(sumlongforpoint):
+            break
+        if sumlongforpoint[jj] == sumlongforpoint[jj+1]:
+            sumlongforpoint.remove(sumlongforpoint[jj+1])
+        jj = jj +1
+
+    
+    j = 0 
+    a1 = 0
+
+    while j < len(sumlongfoeline):
+        ab = True 
+        aa = True
+        i = 0
+        while  i < len(sumlongforpoint):
+            if len(sumlongfoeline) == len(testnew):
+                break
+            if str(sumlongfoeline[j][1]) == str(sumlongforpoint[i][0]) and ab :
+                ab = False
+                a =  str(sumlongfoeline[j][0]) #roadid
+                b = str(sumlongforpoint[i][1]) #x y
+
+                try : 
+                    if sumlongforpoint[i][0] == sumlongfoeline[j+1][1] or sumlongforpoint[i][0] == sumlongfoeline[j+1][2] :
+                        i = -1
+                        
+                    else:
+                        sumlongforpoint.remove(sumlongforpoint[i])
+                except:
+                    last1 = 1
+                i = -1
+            if str(sumlongfoeline[j][2]) == str(sumlongforpoint[i][0]) and aa:
+                aa = False
+                d = str(sumlongforpoint[i][1])#x y 
+                f2 = f2+1
+                try :
+                    if sumlongforpoint[i][0] == sumlongfoeline[j+1][1] or sumlongforpoint[i][0] == sumlongfoeline[j+1][2] :
+                        i = -1
+                        
+                    else:
+                        sumlongforpoint.remove(sumlongforpoint[i])
+                except:
+                    last2 = 1
+                i = -1
+            if aa == False and ab == False:
+                break
+            else:
+                i = i +1
+
+            # elif aa == False or ab == False:
+            #     i = i+1
+            #     continue
+            # elif aa and ab:
+            #     i = i+1
+        if aa or ab:
+            a1 =a1+1
+            print('error')
+            
+            if aa :
+                print(str(sumlongfoeline[j][2]))
+            if ab:
+                print(str(sumlongfoeline[j][1]))
+        else:
+            testnew.append(a+",P"+b+",P"+d+'\n')
+        j = j+1
+    print(a1)
+
+            
+
+    file = open('P_Boss.txt', 'w')
+    writetxt(file, testnew)
+
+            
+
+
+
+
+
 
     # print(listtt)
     # ---------------------------------------------------------
