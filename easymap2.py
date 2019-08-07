@@ -215,6 +215,15 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                 if FnodeCurrent == NodeStart:  # บางครั้งจะมีแบบ ตัวแรกที่เข้ามาไม่ใช่จุดเริ่มต้นที่เราต้องการเข้ามาได้ไงก็ไม่รู้ก็สร้างifนี้ไว้เช็คเพื่อตัดการerrorเคสนั้นออก
                     c = True
                     # print(NodeStart)
+                if NodeStart == 1103036 and NodeEnd == 1084006 :
+                    datafromWWW.reverse()
+                    FnodeCurrent = 0
+                    TnodeCurrent = 0
+                    a = NodeEnd
+                    b = NodeStart
+                    NodeStart = a
+                    NodeEnd = b
+                    continue
                 if c and str(FnodeCurrent) not in Nodefinal:
                     linefinal2.append((datao[1],datao[2],datao[3]))
                     #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
@@ -345,6 +354,24 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                 # if FnodeCurrent == NodeStart or TnodeCurrent == NodeStart : # บางครั้งจะมีแบบ ตัวแรกที่เข้ามาไม่ใช่จุดเริ่มต้นที่เราต้องการเข้ามาได้ไงก็ไม่รู้ก็สร้างifนี้ไว้เช็คเพื่อตัดการerrorเคสนั้นออก
                     c = True
                     # print(NodeStart)
+                if NodeStart == 1045123 and NodeEnd == 1044094 :
+                    datafromWWW.reverse()
+                    FnodeCurrent = 0
+                    TnodeCurrent = 0
+                    a = NodeEnd
+                    b = NodeStart
+                    NodeStart = a
+                    NodeEnd = b
+                    continue
+                if NodeStart == 1101352 and NodeEnd == 1101381 :
+                    datafromWWW.reverse()
+                    FnodeCurrent = 0
+                    TnodeCurrent = 0
+                    a = NodeEnd
+                    b = NodeStart
+                    NodeStart = a
+                    NodeEnd = b
+                    continue
                 if c and str(FnodeCurrent) not in Nodefinal2:
                     linefinal3.append((datao[1],datao[2],datao[3]))
                     #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
@@ -463,7 +490,17 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
     else:
         checkerrorlist.append("ไปไม่ได้สักทาง")
     #-------------ใช้อีก API-------------------------------------
-    if len(counterror) > 0 : #แปลว่าข้างบน error
+    error = False
+    if (str(NodeEnd) not in Nodefinal and NodeEnd not in Nodefinal) or (str(NodeStart) not in Nodefinal and NodeStart not in Nodefinal) :
+        error = True
+        Nodefinal.clear()
+        linefinal.clear()
+    if len(counterror) > 0 or len(Nodefinal) == 0 or error: #แปลว่าข้างบน error
+        a = NodeEnd
+        b = NodeStart
+        NodeStart = a
+        NodeEnd = b
+        sumlenn.clear()
         for data in latlonNodelist:
             if NodeStart == int(data[2]):
                 lonstart = str(data[0])
@@ -471,6 +508,7 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
             if NodeEnd == int(data[2]):
                 lonEnd = str(data[0])
                 latEnd = str(data[1])
+
 
         URL = "https://mslb1.longdo.com/map/mmroute-transit/json/route/raw?flon="+lonstart+"&flat="+latstart+"&tlon="+lonEnd+"&tlat="+latEnd
         # URL = "https://mmmap15.longdo.com/mmroute/json/route/raw?flon=" + \
@@ -483,6 +521,7 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
         testRoadIDwithQgis12 = []
         linefinal13 = []
         c = False
+        # reversee = 0
         while count < len(datafromWWW):
             noterror = 0
             for datao in OurroadFinal2:
@@ -491,8 +530,10 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                     FnodeCurrent = int(datao[2])
                     TnodeCurrent = int(datao[3])
                     # if FnodeCurrent == NodeStart or TnodeCurrent == NodeStart:
-                    if FnodeCurrent == NodeStart:  # บางครั้งจะมีแบบ ตัวแรกที่เข้ามาไม่ใช่จุดเริ่มต้นที่เราต้องการเข้ามาได้ไงก็ไม่รู้ก็สร้างifนี้ไว้เช็คเพื่อตัดการerrorเคสนั้นออก
-                        c = True
+                    if FnodeCurrent == NodeStart or TnodeCurrent == NodeStart :  # บางครั้งจะมีแบบ ตัวแรกที่เข้ามาไม่ใช่จุดเริ่มต้นที่เราต้องการเข้ามาได้ไงก็ไม่รู้ก็สร้างifนี้ไว้เช็คเพื่อตัดการerrorเคสนั้นออก
+                        # if TnodeCurrent == NodeStart:
+                        #     reversee = 1
+                        c = True #อย่าลืม reverse
                         # print(NodeStart)
                     if c and str(FnodeCurrent) not in Nodefinal12:
                         linefinal13.append((datao[1],datao[2],datao[3]))
@@ -512,7 +553,7 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                         testRoadIDwithQgis12.append(
                         str(datafromWWW[count]['id'])+",")
                         noterror = 1
-                    if TnodeCurrent == NodeStart and c : #วนกลับมาจุดเดิม
+                    if TnodeCurrent == NodeStart and c and noterror != 1 : #วนกลับมาจุดเดิม
                         num = 0
                         for dataa in linefinal13:
                             if int(datafromWWW[num]['id']) == int(dataa[0]):
@@ -529,7 +570,7 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
             count = count+1
             b = 0
 
-            if TnodeCurrent == NodeEnd or (FnodeCurrent == NodeEnd and len(Nodefinal)> 1):
+            if (TnodeCurrent == NodeEnd or FnodeCurrent == NodeEnd) and len(linefinal13) > 0:
                 Nodefinal12.append(TnodeCurrent)
                 i = 0
                 if len(linefinal13) == 0 and len(datafromWWW)!= 0:
@@ -566,7 +607,7 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                 if len(Nodefinal12) != 1:
                     try:
                         linefinal13.clear()
-                        sumlenn12.clear()
+                        sumlenn.clear()
                         Nodefinal12.clear()
                         counterror.clear()
                         checkerrorlist2.clear()
@@ -577,6 +618,9 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                     except:
                         counterror.append("1")
                         checkerrorlist1.append("linefinal ไม่มีข้อมูล")
+        # if reversee == 1:
+        #     linefinal13.reverse()
+        #     sumlenn.reverse()
         checkerrorlist.extend(checkerrorlist2)
         Nodefinal.clear()
         for data in linefinal13 :
