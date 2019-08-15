@@ -494,12 +494,13 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
     if (str(NodeEnd) not in Nodefinal and NodeEnd not in Nodefinal) or (str(NodeStart) not in Nodefinal and NodeStart not in Nodefinal) :
         error = True
         Nodefinal.clear()
-    if len(counterror) > 0 or len(Nodefinal) == 0 or error: #แปลว่าข้างบน error
+    if len(counterror2) > 0 or len(counterror) > 0 or len(Nodefinal) == 0 or error: #แปลว่าข้างบน error
         a = NodeEnd
         b = NodeStart
         NodeStart = a
         NodeEnd = b
         sumlenn.clear()
+        counterror.clear()
         for data in latlonNodelist:
             if NodeStart == int(data[2]):
                 lonstart = str(data[0])
