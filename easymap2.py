@@ -460,7 +460,7 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
     Nodefinal2.reverse()
     sumlenn2.reverse()
     linefinal3.reverse()
-    if (sum(sumlenn2) < sum(sumlenn) and sum(sumlenn2)!=0)  or sum(sumlenn) == 0:
+    if ((sum(sumlenn2) < sum(sumlenn) and sum(sumlenn2)!=0)  or sum(sumlenn) == 0) and len(counterror2) == 0:
         sumlenn.clear()
         sumlenn.extend(sumlenn2)
         Nodefinal.clear()
@@ -477,7 +477,7 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
             if data[2] not in Nodefinal:
                 Nodefinal.append(data[2])
         # linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+str(datafromWWW[count]['dir'])+'\n'))
-    elif (sum(sumlenn2) >= sum(sumlenn) and sum(sumlenn)!=0) or sum(sumlenn2) == 0 :
+    elif ((sum(sumlenn2) >= sum(sumlenn) and sum(sumlenn)!=0) or sum(sumlenn2) == 0) and len(counterror) == 0 :
         checkerrorlist.extend(checkerrorlist1)
         Nodefinal.clear()
         for data in linefinal2 :
@@ -494,7 +494,6 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
     if (str(NodeEnd) not in Nodefinal and NodeEnd not in Nodefinal) or (str(NodeStart) not in Nodefinal and NodeStart not in Nodefinal) :
         error = True
         Nodefinal.clear()
-        linefinal.clear()
     if len(counterror) > 0 or len(Nodefinal) == 0 or error: #แปลว่าข้างบน error
         a = NodeEnd
         b = NodeStart
