@@ -28,7 +28,7 @@
    - เก็บค่า Nodeทั้งหมด และ Lengthทั้งหมด ใส่ <list> Nodefinal และ <list> sumlenn
           
    ### 2. def createXY            
-   - เอาค่า Nodeทั้งหมด และ Lengthทั้งหมด และ XYเริ่มต้น และXYสิ้นสุด(ที่ได้จาก `FinalXY.txt`) มาแบ่งตามอัตราส่วน XY ตาม length ที่เก็บไว้ใน <list> sumlenn
+   - เอาค่า Nodeทั้งหมด และ Lengthทั้งหมด และ XYเริ่มต้น และXYสิ้นสุด(ที่ได้จาก `FinalXY.txt`) มาแบ่ง XY ตามอัตราส่วน โดยคิดอัตราส่วนจาก length ที่เก็บไว้ใน <list> sumlenn
    
    - ได้ จุดX จุดY ของ Node นั้นๆ
 
