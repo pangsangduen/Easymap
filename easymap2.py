@@ -179,12 +179,12 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
 
 
     # URL = "https://mslb1.longdo.com/map/mmroute-transit/json/route/raw?flon="+lonstart+"&flat="+latstart+"&tlon="+lonEnd+"&tlat="+latEnd
-    URL = "https://mmmap15.longdo.com/mmroute/json/route/raw?flon=" + \
-         lonstart+"&flat="+latstart+"&tlon="+lonEnd+"&tlat="+latEnd
+    # URL = "https://mmmap15.longdo.com/mmroute/json/route/raw?flon=" + \
+    #      lonstart+"&flat="+latstart+"&tlon="+lonEnd+"&tlat="+latEnd
 
-    CallData = requests.get(URL)
+    # CallData = requests.get(URL)
     # datafromWWW = [{'id': 554528, 'dir': 0}, {'id': 385389, 'dir': 1}]
-    datafromWWW = CallData.json()  # ได้ข้อมูลทั้งหมดแล้ว
+    # datafromWWW = CallData.json()  # ได้ข้อมูลทั้งหมดแล้ว
     # print(len(datafromWWW))
     count = 0
     TnodeCurrent = 0
@@ -198,309 +198,318 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
     checkerrorlist.append("latEnd = "+str(latEnd)+'\n')
     checkerrorlist.append("lonEnd = "+str(lonEnd)+'\n')    
     checkerrorlist.append("Node =  "+str(NodeStart)+","+str(NodeEnd)+'\n')
-    c = False
+    # c = False
     print(lonstart)
     print(latstart)
     print(lonEnd)
     print(latEnd)
-    #-------------fromNode to ToNode-------------------------------------                         
-    while count < len(datafromWWW):
-        noterror = 0
-        for datao in OurroadFinal2:
-            if int(datafromWWW[count]['id']) == int(datao[1]):
-                # linefinal.append(str(datao[1])+",P"+str(datao[2])+",P"+str(datao[3])+","+str(datafromWWW[count]['dir'])+'\n')
-                FnodeCurrent = int(datao[2])
-                TnodeCurrent = int(datao[3])
-                # if FnodeCurrent == NodeStart or TnodeCurrent == NodeStart:
-                if FnodeCurrent == NodeStart:  # บางครั้งจะมีแบบ ตัวแรกที่เข้ามาไม่ใช่จุดเริ่มต้นที่เราต้องการเข้ามาได้ไงก็ไม่รู้ก็สร้างifนี้ไว้เช็คเพื่อตัดการerrorเคสนั้นออก
-                    c = True
-                    # print(NodeStart)
-                if NodeStart == 1103036 and NodeEnd == 1084006 :
-                    datafromWWW.reverse()
-                    FnodeCurrent = 0
-                    TnodeCurrent = 0
-                    a = NodeEnd
-                    b = NodeStart
-                    NodeStart = a
-                    NodeEnd = b
-                    continue
-                if c and str(FnodeCurrent) not in Nodefinal:
-                    linefinal2.append((datao[1],datao[2],datao[3]))
-                    #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
-                    TnodeCurrent = int(datao[3])
-                    sumlenn.append(float(datao[4]))
-                    Nodefinal.append(datao[2])
-                    testRoadIDwithQgis.append(
-                    str(datafromWWW[count]['id'])+",")
-                    noterror = 1
-                if noterror != 1 and c: #กันการเปลี่ยน f node t nodeตรงกลาง #and len(Nodefinal) != 1 
-                    linefinal2.append((datao[1],datao[2],datao[3])) #roadID Fnode Tnode
-                    #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
-                    TnodeCurrent = int(datao[3])
-                    sumlenn.append(float(datao[4]))
-                    Nodefinal.append(datao[2])
-                    testRoadIDwithQgis.append(
-                    str(datafromWWW[count]['id'])+",")
-                    noterror = 1
-                if TnodeCurrent == NodeStart and c : #วนกลับมาจุดเดิม
-                    num = 0
-                    for dataa in linefinal2:
-                        if int(datafromWWW[num]['id']) == int(dataa[0]):
-                            datafromWWW.remove(datafromWWW[num])
-                        else: 
-                            num=num+1
-                    linefinal2.clear()
-                    Nodefinal.clear()
-                    sumlenn.clear()
-                    noterror = 1
-                    c = False
-                    count = -1 # มันจะบวกเพิ่มข้างล่าง
-                break
-        count = count+1
-        b = 0
+    # #-------------fromNode to ToNode-------------------------------------                         
+    # while count < len(datafromWWW):
+    #     noterror = 0
+    #     for datao in OurroadFinal2:
+    #         if int(datafromWWW[count]['id']) == int(datao[1]):
+    #             # linefinal.append(str(datao[1])+",P"+str(datao[2])+",P"+str(datao[3])+","+str(datafromWWW[count]['dir'])+'\n')
+    #             FnodeCurrent = int(datao[2])
+    #             TnodeCurrent = int(datao[3])
+    #             # if FnodeCurrent == NodeStart or TnodeCurrent == NodeStart:
+    #             if FnodeCurrent == NodeStart:  # บางครั้งจะมีแบบ ตัวแรกที่เข้ามาไม่ใช่จุดเริ่มต้นที่เราต้องการเข้ามาได้ไงก็ไม่รู้ก็สร้างifนี้ไว้เช็คเพื่อตัดการerrorเคสนั้นออก
+    #                 c = True
+    #                 # print(NodeStart)
+    #             if NodeStart == 1103036 and NodeEnd == 1084006 :
+    #                 datafromWWW.reverse()
+    #                 FnodeCurrent = 0
+    #                 TnodeCurrent = 0
+    #                 a = NodeEnd
+    #                 b = NodeStart
+    #                 NodeStart = a
+    #                 NodeEnd = b
+    #                 continue
+    #             if c and str(FnodeCurrent) not in Nodefinal:
+    #                 linefinal2.append((datao[1],datao[2],datao[3]))
+    #                 #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
+    #                 TnodeCurrent = int(datao[3])
+    #                 sumlenn.append(float(datao[4]))
+    #                 Nodefinal.append(datao[2])
+    #                 testRoadIDwithQgis.append(
+    #                 str(datafromWWW[count]['id'])+",")
+    #                 noterror = 1
+    #             if noterror != 1 and c: #กันการเปลี่ยน f node t nodeตรงกลาง #and len(Nodefinal) != 1 
+    #                 linefinal2.append((datao[1],datao[2],datao[3])) #roadID Fnode Tnode
+    #                 #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
+    #                 TnodeCurrent = int(datao[3])
+    #                 sumlenn.append(float(datao[4]))
+    #                 Nodefinal.append(datao[2])
+    #                 testRoadIDwithQgis.append(
+    #                 str(datafromWWW[count]['id'])+",")
+    #                 noterror = 1
+    #             if TnodeCurrent == NodeStart and c : #วนกลับมาจุดเดิม
+    #                 num = 0
+    #                 lenline = len(linefinal2)
+    #                 for dataa in linefinal2:
+    #                     firstt = True
+    #                     while True:
+    #                         if int(datafromWWW[num]['id']) == int(dataa[0]) and firstt:
+    #                             datafromWWW.remove(datafromWWW[num])
+    #                             lenline = lenline -1
+    #                             firstt = False
+    #                             break
+    #                         elif lenline > 0 and firstt:
+    #                             datafromWWW.remove(datafromWWW[num])
+    #                         else: 
+    #                             num=num+1
+    #                 linefinal2.clear()
+    #                 Nodefinal.clear()
+    #                 sumlenn.clear()
+    #                 noterror = 1
+    #                 c = False
+    #                 count = -1 # มันจะบวกเพิ่มข้างล่าง
+    #             break
+    #     count = count+1
+    #     b = 0
 
-        if TnodeCurrent == NodeEnd or (FnodeCurrent == NodeEnd and len(Nodefinal)> 1):
-            Nodefinal.append(TnodeCurrent)
-            i = 0
-            if len(linefinal2) == 0 and len(datafromWWW)!= 0:
-                counterror.append("1")
-                checkerrorlist1.append("linefinal ไม่มีข้อมูล")
-                break
-                # datafromWWW.remove(datafromWWW[0])
-                # b = 1
-                # count = 0
-            while i < len(linefinal2)-1 :
-                if linefinal2[i][2] !=  linefinal2[i+1][1] and linefinal2[i][2] !=  linefinal2[i+1][2] and linefinal2[i][1] !=  linefinal2[i+1][1] and linefinal2[i][1] !=  linefinal2[i+1][2]: #fnode Tnode ไม่ต่อกัน
-                    count = 0
-                    linefinal2.clear()
-                    sumlenn.clear()
-                    Nodefinal.clear()
-                    counterror.clear()
-                    checkerrorlist1.append(checkerrorlist2)
-                    checkerrorlist2.clear()
-                    testRoadIDwithQgis.clear()
-                    c = False
-                    datafromWWW.remove(datafromWWW[0]) #ลบตัวหน้า
-                    b = 1
-                i = i+1
+    #     if TnodeCurrent == NodeEnd or (FnodeCurrent == NodeEnd and len(Nodefinal)> 1):
+    #         Nodefinal.append(TnodeCurrent)
+    #         i = 0
+    #         if len(linefinal2) == 0 and len(datafromWWW)!= 0:
+    #             counterror.append("1")
+    #             checkerrorlist1.append("linefinal ไม่มีข้อมูล")
+    #             break
+    #             # datafromWWW.remove(datafromWWW[0])
+    #             # b = 1
+    #             # count = 0
+    #         while i < len(linefinal2)-1 :
+    #             if linefinal2[i][2] !=  linefinal2[i+1][1] and linefinal2[i][2] !=  linefinal2[i+1][2] and linefinal2[i][1] !=  linefinal2[i+1][1] and linefinal2[i][1] !=  linefinal2[i+1][2]: #fnode Tnode ไม่ต่อกัน
+    #                 count = 0
+    #                 linefinal2.clear()
+    #                 sumlenn.clear()
+    #                 Nodefinal.clear()
+    #                 counterror.clear()
+    #                 checkerrorlist1.append(checkerrorlist2)
+    #                 checkerrorlist2.clear()
+    #                 testRoadIDwithQgis.clear()
+    #                 c = False
+    #                 datafromWWW.remove(datafromWWW[0]) #ลบตัวหน้า
+    #                 b = 1
+    #             i = i+1
 
-            if b == 0 : #
-                counterror.clear()
-                checkerrorlist2.clear()
-                break
+    #         if b == 0 : #
+    #             counterror.clear()
+    #             checkerrorlist2.clear()
+    #             break
             
-        elif noterror != 1 and c:
-            if len(Nodefinal) != 1:
-                try:
-                    linefinal2.clear()
-                    sumlenn.clear()
-                    Nodefinal.clear()
-                    counterror.clear()
-                    checkerrorlist2.clear()
-                    testRoadIDwithQgis.clear()
-                    c = False
-                    checkerrorlist2.append(("ทำไมroadไอดี "+str(datafromWWW[count-1]['id'])+" ไม่มีในdatabase")+'\n')
-                    counterror.append("1")
-                except:
-                    counterror.append("1")
-                    checkerrorlist1.append("linefinal ไม่มีข้อมูล")
-                # print("ไม่มีข้อมูลใน datafromWWW")
-            # print(counterror)
-    # for data in linefinal2:
-    #     linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))  
-        # linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+str(datafromWWW[count]['dir'])+'\n'))
+    #     elif noterror != 1 and c:
+    #         if len(Nodefinal) != 1:
+    #             try:
+    #                 linefinal2.clear()
+    #                 sumlenn.clear()
+    #                 Nodefinal.clear()
+    #                 counterror.clear()
+    #                 checkerrorlist2.clear()
+    #                 testRoadIDwithQgis.clear()
+    #                 c = False
+    #                 checkerrorlist2.append(("ทำไมroadไอดี "+str(datafromWWW[count-1]['id'])+" ไม่มีในdatabase")+'\n')
+    #                 counterror.append("1")
+    #             except:
+    #                 counterror.append("1")
+    #                 checkerrorlist1.append("linefinal ไม่มีข้อมูล")
+    #             # print("ไม่มีข้อมูลใน datafromWWW")
+    #         # print(counterror)
+    # # for data in linefinal2:
+    # #     linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))  
+    #     # linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+str(datafromWWW[count]['dir'])+'\n'))
 
-    #ย้อนกลับไปเป็นยังไม่ได้ทำไรเลย
-    #-------------ToNode to FromNode----------------แค่สลับ--------------------- 
-    a = NodeEnd
-    b = NodeStart
-    NodeStart = a
-    NodeEnd = b
-    for data in latlonNodelist:
-        if NodeStart == int(data[2]):
-            lonstart = str(data[0])
-            latstart = str(data[1])
-            # listFromFinalStart.append(data[0]) # ได้ lonstart = listFromFinalStart[0]
-            # listFromFinalStart.append(data[1]) # latstart = listFromFinalStart[1]
-        if NodeEnd == int(data[2]):
-            lonEnd = str(data[0])
-            latEnd = str(data[1])
-            # listFromFinalEnd.append(data[0]) # ได้ lonEnd = listFromFinalEnd[0]
-            # listFromFinalEnd.append(data[1]) # ได้ latEnd = listFromFinalEnd[1]
+    # #ย้อนกลับไปเป็นยังไม่ได้ทำไรเลย
+    # #-------------ToNode to FromNode----------------แค่สลับ--------------------- 
+    # a = NodeEnd
+    # b = NodeStart
+    # NodeStart = a
+    # NodeEnd = b
+    # for data in latlonNodelist:
+    #     if NodeStart == int(data[2]):
+    #         lonstart = str(data[0])
+    #         latstart = str(data[1])
+    #         # listFromFinalStart.append(data[0]) # ได้ lonstart = listFromFinalStart[0]
+    #         # listFromFinalStart.append(data[1]) # latstart = listFromFinalStart[1]
+    #     if NodeEnd == int(data[2]):
+    #         lonEnd = str(data[0])
+    #         latEnd = str(data[1])
+    #         # listFromFinalEnd.append(data[0]) # ได้ lonEnd = listFromFinalEnd[0]
+    #         # listFromFinalEnd.append(data[1]) # ได้ latEnd = listFromFinalEnd[1]
 
-    URL = "https://mmmap15.longdo.com/mmroute/json/route/raw?flon=" + \
-         lonstart+"&flat="+latstart+"&tlon="+lonEnd+"&tlat="+latEnd
-    # URL = "https://mslb1.longdo.com/map/mmroute-transit/json/route/raw?flon="+lonstart+"&flat="+latstart+"&tlon="+lonEnd+"&tlat="+latEnd
-    CallData = requests.get(URL)
-    # datafromWWW = [{'id': 554528, 'dir': 0}, {'id': 385389, 'dir': 1}]
-    datafromWWW = CallData.json()  # ได้ข้อมูลทั้งหมดแล้ว
-    count = 0
-    sumlenn2 = []
-    Nodefinal2 = []
-    testRoadIDwithQgis2 = []
-    linefinal3 = []
-    counterror2 = []
-    checkerrorlist3 = []
-    checkerrorlist4 = []
-    c = False
-    while count < len(datafromWWW):
-        noterror = 0
-        for datao in OurroadFinal2:
-            if int(datafromWWW[count]['id']) == int(datao[1]):
-                # linefinal.append(str(datao[1])+",P"+str(datao[2])+",P"+str(datao[3])+","+str(datafromWWW[count]['dir'])+'\n')
-                FnodeCurrent = int(datao[2])
-                TnodeCurrent = int(datao[3])
-                if FnodeCurrent == NodeStart :
-                # if FnodeCurrent == NodeStart or TnodeCurrent == NodeStart : # บางครั้งจะมีแบบ ตัวแรกที่เข้ามาไม่ใช่จุดเริ่มต้นที่เราต้องการเข้ามาได้ไงก็ไม่รู้ก็สร้างifนี้ไว้เช็คเพื่อตัดการerrorเคสนั้นออก
-                    c = True
-                    # print(NodeStart)
-                if NodeStart == 1045123 and NodeEnd == 1044094 :
-                    datafromWWW.reverse()
-                    FnodeCurrent = 0
-                    TnodeCurrent = 0
-                    a = NodeEnd
-                    b = NodeStart
-                    NodeStart = a
-                    NodeEnd = b
-                    continue
-                if NodeStart == 1101352 and NodeEnd == 1101381 :
-                    datafromWWW.reverse()
-                    FnodeCurrent = 0
-                    TnodeCurrent = 0
-                    a = NodeEnd
-                    b = NodeStart
-                    NodeStart = a
-                    NodeEnd = b
-                    continue
-                if c and str(FnodeCurrent) not in Nodefinal2:
-                    linefinal3.append((datao[1],datao[2],datao[3]))
-                    #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
-                    TnodeCurrent = int(datao[3])
-                    sumlenn2.append(float(datao[4]))
-                    Nodefinal2.append(datao[2])
-                    testRoadIDwithQgis2.append(
-                    str(datafromWWW[count]['id'])+",")
-                    noterror = 1
-                if noterror != 1 and c : #กันการเปลี่ยน f node t nodeตรงกลาง
-                    linefinal3.append((datao[1],datao[2],datao[3])) #roadID Fnode Tnode
-                    #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
-                    TnodeCurrent = int(datao[3])
-                    sumlenn2.append(float(datao[4]))
-                    Nodefinal2.append(datao[2])
-                    testRoadIDwithQgis2.append(
-                    str(datafromWWW[count]['id'])+",")
-                    noterror = 1
-                if TnodeCurrent == NodeStart and c:
-                    num = 0
-                    for dataa in linefinal3:
-                        if int(datafromWWW[num]['id']) == int(dataa[0]):
-                            datafromWWW.remove(datafromWWW[num])
-                        else: 
-                            num=num+1
-                    linefinal3.clear()
-                    Nodefinal2.clear()
-                    sumlenn2.clear()
-                    noterror = 1
-                    c = False
-                    count = -1 # มันจะบวกเพิ่มข้างล่าง
-                break
-        count = count+1
-        b = 0
-        if TnodeCurrent == NodeEnd or (FnodeCurrent == NodeEnd and len(Nodefinal)> 1):
-            Nodefinal2.append(TnodeCurrent)
-            i = 0
-            if len(linefinal3) == 0 and len(datafromWWW)!= 0:
-                counterror2.append("1")
-                checkerrorlist3.append("linefinal ไม่มีข้อมูล")
-                break
-                # datafromWWW.remove(datafromWWW[0])
-                # b = 1
-                # count = 0
-            while i < len(linefinal3)-1 : #เช็คว่าข้อมูลทั้งหมดต่อกันป่าว
-                if linefinal3[i][2] !=  linefinal3[i+1][1] and linefinal3[i][2] !=  linefinal3[i+1][2] and linefinal3[i][1] !=  linefinal3[i+1][1] and linefinal3[i][1] !=  linefinal3[i+1][2]: #fnode Tnode ไม่ต่อกัน มีหลาย or เพราะสามารถกลับ t to f , f to t ได้
-                    count = 0
-                    linefinal3.clear()
-                    sumlenn2.clear()
-                    Nodefinal2.clear()
-                    counterror2.clear()
-                    checkerrorlist3.append(checkerrorlist4)
-                    checkerrorlist4.clear()
-                    testRoadIDwithQgis2.clear()
-                    datafromWWW.remove(datafromWWW[0]) #ลบตัวหน้า
-                    b = 1
-                i = i+1
+    # URL = "https://mmmap15.longdo.com/mmroute/json/route/raw?flon=" + \
+    #      lonstart+"&flat="+latstart+"&tlon="+lonEnd+"&tlat="+latEnd
+    # # URL = "https://mslb1.longdo.com/map/mmroute-transit/json/route/raw?flon="+lonstart+"&flat="+latstart+"&tlon="+lonEnd+"&tlat="+latEnd
+    # CallData = requests.get(URL)
+    # # datafromWWW = [{'id': 554528, 'dir': 0}, {'id': 385389, 'dir': 1}]
+    # datafromWWW = CallData.json()  # ได้ข้อมูลทั้งหมดแล้ว
+    # count = 0
+    # sumlenn2 = []
+    # Nodefinal2 = []
+    # testRoadIDwithQgis2 = []
+    # linefinal3 = []
+    # counterror2 = []
+    # checkerrorlist3 = []
+    # checkerrorlist4 = []
+    # c = False
+    # while count < len(datafromWWW):
+    #     noterror = 0
+    #     for datao in OurroadFinal2:
+    #         if int(datafromWWW[count]['id']) == int(datao[1]):
+    #             # linefinal.append(str(datao[1])+",P"+str(datao[2])+",P"+str(datao[3])+","+str(datafromWWW[count]['dir'])+'\n')
+    #             FnodeCurrent = int(datao[2])
+    #             TnodeCurrent = int(datao[3])
+    #             if FnodeCurrent == NodeStart :
+    #             # if FnodeCurrent == NodeStart or TnodeCurrent == NodeStart : # บางครั้งจะมีแบบ ตัวแรกที่เข้ามาไม่ใช่จุดเริ่มต้นที่เราต้องการเข้ามาได้ไงก็ไม่รู้ก็สร้างifนี้ไว้เช็คเพื่อตัดการerrorเคสนั้นออก
+    #                 c = True
+    #                 # print(NodeStart)
+    #             if NodeStart == 1045123 and NodeEnd == 1044094 :
+    #                 datafromWWW.reverse()
+    #                 FnodeCurrent = 0
+    #                 TnodeCurrent = 0
+    #                 a = NodeEnd
+    #                 b = NodeStart
+    #                 NodeStart = a
+    #                 NodeEnd = b
+    #                 continue
+    #             if NodeStart == 1101352 and NodeEnd == 1101381 :
+    #                 datafromWWW.reverse()
+    #                 FnodeCurrent = 0
+    #                 TnodeCurrent = 0
+    #                 a = NodeEnd
+    #                 b = NodeStart
+    #                 NodeStart = a
+    #                 NodeEnd = b
+    #                 continue
+    #             if c and str(FnodeCurrent) not in Nodefinal2:
+    #                 linefinal3.append((datao[1],datao[2],datao[3]))
+    #                 #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
+    #                 TnodeCurrent = int(datao[3])
+    #                 sumlenn2.append(float(datao[4]))
+    #                 Nodefinal2.append(datao[2])
+    #                 testRoadIDwithQgis2.append(
+    #                 str(datafromWWW[count]['id'])+",")
+    #                 noterror = 1
+    #             if noterror != 1 and c : #กันการเปลี่ยน f node t nodeตรงกลาง
+    #                 linefinal3.append((datao[1],datao[2],datao[3])) #roadID Fnode Tnode
+    #                 #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
+    #                 TnodeCurrent = int(datao[3])
+    #                 sumlenn2.append(float(datao[4]))
+    #                 Nodefinal2.append(datao[2])
+    #                 testRoadIDwithQgis2.append(
+    #                 str(datafromWWW[count]['id'])+",")
+    #                 noterror = 1
+    #             if TnodeCurrent == NodeStart and c:
+    #                 num = 0
+    #                 for dataa in linefinal3:
+    #                     if int(datafromWWW[num]['id']) == int(dataa[0]):
+    #                         datafromWWW.remove(datafromWWW[num])
+    #                     else: 
+    #                         num=num+1
+    #                 linefinal3.clear()
+    #                 Nodefinal2.clear()
+    #                 sumlenn2.clear()
+    #                 noterror = 1
+    #                 c = False
+    #                 count = -1 # มันจะบวกเพิ่มข้างล่าง
+    #             break
+    #     count = count+1
+    #     b = 0
+    #     if TnodeCurrent == NodeEnd or (FnodeCurrent == NodeEnd and len(Nodefinal)> 1):
+    #         Nodefinal2.append(TnodeCurrent)
+    #         i = 0
+    #         if len(linefinal3) == 0 and len(datafromWWW)!= 0:
+    #             counterror2.append("1")
+    #             checkerrorlist3.append("linefinal ไม่มีข้อมูล")
+    #             break
+    #             # datafromWWW.remove(datafromWWW[0])
+    #             # b = 1
+    #             # count = 0
+    #         while i < len(linefinal3)-1 : #เช็คว่าข้อมูลทั้งหมดต่อกันป่าว
+    #             if linefinal3[i][2] !=  linefinal3[i+1][1] and linefinal3[i][2] !=  linefinal3[i+1][2] and linefinal3[i][1] !=  linefinal3[i+1][1] and linefinal3[i][1] !=  linefinal3[i+1][2]: #fnode Tnode ไม่ต่อกัน มีหลาย or เพราะสามารถกลับ t to f , f to t ได้
+    #                 count = 0
+    #                 linefinal3.clear()
+    #                 sumlenn2.clear()
+    #                 Nodefinal2.clear()
+    #                 counterror2.clear()
+    #                 checkerrorlist3.append(checkerrorlist4)
+    #                 checkerrorlist4.clear()
+    #                 testRoadIDwithQgis2.clear()
+    #                 datafromWWW.remove(datafromWWW[0]) #ลบตัวหน้า
+    #                 b = 1
+    #             i = i+1
 
-            if b == 0 : #
-                counterror2.clear()
-                checkerrorlist4.clear()
-                break
+    #         if b == 0 : #
+    #             counterror2.clear()
+    #             checkerrorlist4.clear()
+    #             break
             
-        elif noterror != 1 and c:
-            if len(Nodefinal2) != 1:
-                try:
-                    linefinal3.clear()
-                    sumlenn2.clear()
-                    Nodefinal2.clear()
-                    counterror2.clear()
-                    testRoadIDwithQgis2.clear()
-                    c = False
-                    checkerrorlist4.append(("ทำไมroadไอดี "+str(datafromWWW[count-1]['id'])+" ไม่มีในdatabase")+'\n')
-                    counterror2.append("1")
-                except:
-                    linefinal3.clear()
-                    sumlenn2.clear()
-                    Nodefinal2.clear()
-                    counterror2.clear()
-                    testRoadIDwithQgis2.clear()
-                    c = False
-                    counterror2.append("1")
-                    checkerrorlist3.append("linefinal ไม่มีข้อมูล")
+    #     elif noterror != 1 and c:
+    #         if len(Nodefinal2) != 1:
+    #             try:
+    #                 linefinal3.clear()
+    #                 sumlenn2.clear()
+    #                 Nodefinal2.clear()
+    #                 counterror2.clear()
+    #                 testRoadIDwithQgis2.clear()
+    #                 c = False
+    #                 checkerrorlist4.append(("ทำไมroadไอดี "+str(datafromWWW[count-1]['id'])+" ไม่มีในdatabase")+'\n')
+    #                 counterror2.append("1")
+    #             except:
+    #                 linefinal3.clear()
+    #                 sumlenn2.clear()
+    #                 Nodefinal2.clear()
+    #                 counterror2.clear()
+    #                 testRoadIDwithQgis2.clear()
+    #                 c = False
+    #                 counterror2.append("1")
+    #                 checkerrorlist3.append("linefinal ไม่มีข้อมูล")
 
 
-    Nodefinal2.reverse()
-    sumlenn2.reverse()
-    linefinal3.reverse()
-    if ((sum(sumlenn2) < sum(sumlenn) and sum(sumlenn2)!=0)  or sum(sumlenn) == 0) and len(counterror2) == 0:
-        sumlenn.clear()
-        sumlenn.extend(sumlenn2)
-        Nodefinal.clear()
-        # Nodefinal.extend(Nodefinal2)
-        testRoadIDwithQgis.clear()
-        testRoadIDwithQgis.extend(testRoadIDwithQgis2)
-        counterror.clear()
-        counterror.extend(counterror2)
-        checkerrorlist.extend(checkerrorlist3)
-        for data in linefinal3 :
-            linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))
-            if data[1] not in Nodefinal:
-                Nodefinal.append(data[1])
-            if data[2] not in Nodefinal:
-                Nodefinal.append(data[2])
-        # linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+str(datafromWWW[count]['dir'])+'\n'))
-    elif ((sum(sumlenn2) >= sum(sumlenn) and sum(sumlenn)!=0) or sum(sumlenn2) == 0) and len(counterror) == 0 :
-        checkerrorlist.extend(checkerrorlist1)
-        Nodefinal.clear()
-        for data in linefinal2 :
-            linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))  
-            if data[1] not in Nodefinal:
-                Nodefinal.append(data[1])
-            if data[2] not in Nodefinal:
-                Nodefinal.append(data[2])
-        # linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+str(datafromWWW[count]['dir'])+'\n'))
-    else:
-        checkerrorlist.append("ไปไม่ได้สักทาง")
+    # Nodefinal2.reverse()
+    # sumlenn2.reverse()
+    # linefinal3.reverse()
+    # if ((sum(sumlenn2) < sum(sumlenn) and sum(sumlenn2)!=0)  or sum(sumlenn) == 0) and len(counterror2) == 0:
+    #     sumlenn.clear()
+    #     sumlenn.extend(sumlenn2)
+    #     Nodefinal.clear()
+    #     # Nodefinal.extend(Nodefinal2)
+    #     testRoadIDwithQgis.clear()
+    #     testRoadIDwithQgis.extend(testRoadIDwithQgis2)
+    #     counterror.clear()
+    #     counterror.extend(counterror2)
+    #     checkerrorlist.extend(checkerrorlist3)
+    #     for data in linefinal3 :
+    #         linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))
+    #         if data[1] not in Nodefinal:
+    #             Nodefinal.append(data[1])
+    #         if data[2] not in Nodefinal:
+    #             Nodefinal.append(data[2])
+    #     # linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+str(datafromWWW[count]['dir'])+'\n'))
+    # elif ((sum(sumlenn2) >= sum(sumlenn) and sum(sumlenn)!=0) or sum(sumlenn2) == 0) and len(counterror) == 0 :
+    #     checkerrorlist.extend(checkerrorlist1)
+    #     Nodefinal.clear()
+    #     for data in linefinal2 :
+    #         linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))  
+    #         if data[1] not in Nodefinal:
+    #             Nodefinal.append(data[1])
+    #         if data[2] not in Nodefinal:
+    #             Nodefinal.append(data[2])
+    #     # linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+str(datafromWWW[count]['dir'])+'\n'))
+    # else:
+    #     checkerrorlist.append("ไปไม่ได้สักทาง")
     #-------------ใช้อีก API-------------------------------------
-    error = False
-    if (str(NodeEnd) not in Nodefinal and NodeEnd not in Nodefinal) or (str(NodeStart) not in Nodefinal and NodeStart not in Nodefinal) :
-        error = True
-        Nodefinal.clear()
-    if len(counterror2) > 0 or len(counterror) > 0 or len(Nodefinal) == 0 or error: #แปลว่าข้างบน error
-        a = NodeEnd
-        b = NodeStart
-        NodeStart = a
-        NodeEnd = b
-        sumlenn.clear()
-        counterror.clear()
+    # error = False
+    error = True
+    # if (str(NodeEnd) not in Nodefinal and NodeEnd not in Nodefinal) or (str(NodeStart) not in Nodefinal and NodeStart not in Nodefinal) :
+    #     error = True
+    #     Nodefinal.clear()
+    if len(counterror) > 0 or len(Nodefinal) == 0 or error: #แปลว่าข้างบน error
+        # a = NodeEnd
+        # b = NodeStart
+        # NodeStart = a
+        # NodeEnd = b
+        # sumlenn.clear()
+        # counterror.clear()
         for data in latlonNodelist:
             if NodeStart == int(data[2]):
                 lonstart = str(data[0])
@@ -509,7 +518,7 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                 lonEnd = str(data[0])
                 latEnd = str(data[1])
 
-
+        # URL = "https://mslb1.longdo.com/map/mmroute-transit/json/route/raw?flon=100.49474654628552628&flat=13.86582486444969753&tlon=100.5257236931136049&tlat=13.85864192797258809"
         URL = "https://mslb1.longdo.com/map/mmroute-transit/json/route/raw?flon="+lonstart+"&flat="+latstart+"&tlon="+lonEnd+"&tlat="+latEnd
         # URL = "https://mmmap15.longdo.com/mmroute/json/route/raw?flon=" + \
         #      lonstart+"&flat="+latstart+"&tlon="+lonEnd+"&tlat="+latEnd
@@ -520,7 +529,8 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
         Nodefinal12 = []
         testRoadIDwithQgis12 = []
         linefinal13 = []
-        c = False
+        first = True
+        check = 0
         # reversee = 0
         while count < len(datafromWWW):
             noterror = 0
@@ -529,106 +539,121 @@ def MatchTxtWithLatlon(lonstart,latstart,lonEnd,latEnd,listtt, checkerrorlist, c
                     # linefinal.append(str(datao[1])+",P"+str(datao[2])+",P"+str(datao[3])+","+str(datafromWWW[count]['dir'])+'\n')
                     FnodeCurrent = int(datao[2])
                     TnodeCurrent = int(datao[3])
-                    # if FnodeCurrent == NodeStart or TnodeCurrent == NodeStart:
-                    if FnodeCurrent == NodeStart or TnodeCurrent == NodeStart :  # บางครั้งจะมีแบบ ตัวแรกที่เข้ามาไม่ใช่จุดเริ่มต้นที่เราต้องการเข้ามาได้ไงก็ไม่รู้ก็สร้างifนี้ไว้เช็คเพื่อตัดการerrorเคสนั้นออก
-                        # if TnodeCurrent == NodeStart:
-                        #     reversee = 1
-                        c = True #อย่าลืม reverse
-                        # print(NodeStart)
-                    if c and str(FnodeCurrent) not in Nodefinal12:
-                        linefinal13.append((datao[1],datao[2],datao[3]))
-                        #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
-                        TnodeCurrent = int(datao[3])
-                        sumlenn.append(float(datao[4]))
-                        Nodefinal12.append(datao[2])
-                        testRoadIDwithQgis12.append(
-                        str(datafromWWW[count]['id'])+",")
-                        noterror = 1
-                    if noterror != 1 and c: #กันการเปลี่ยน f node t nodeตรงกลาง #and len(Nodefinal) != 1 
-                        linefinal13.append((datao[1],datao[2],datao[3])) #roadID Fnode Tnode
-                        #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
-                        TnodeCurrent = int(datao[3])
-                        sumlenn.append(float(datao[4]))
-                        Nodefinal12.append(datao[2])
-                        testRoadIDwithQgis12.append(
-                        str(datafromWWW[count]['id'])+",")
-                        noterror = 1
-                    if TnodeCurrent == NodeStart and c and noterror != 1 : #วนกลับมาจุดเดิม
-                        num = 0
-                        for dataa in linefinal13:
-                            if int(datafromWWW[num]['id']) == int(dataa[0]):
-                                datafromWWW.remove(datafromWWW[num])
-                            else: 
-                                num=num+1
-                        linefinal13.clear()
-                        Nodefinal12.clear()
-                        sumlenn.clear()
-                        noterror = 1
-                        c = False
-                        count = -1 # มันจะบวกเพิ่มข้างล่าง
-                    break
-            count = count+1
-            b = 0
+                    if FnodeCurrent == NodeStart and first:
+                        check = 1
+                        first = False
+                    elif TnodeCurrent == NodeStart and first:
+                        check = 2 
+                        first = False
 
-            if (TnodeCurrent == NodeEnd or FnodeCurrent == NodeEnd) and len(linefinal13) > 0:
-                Nodefinal12.append(TnodeCurrent)
-                i = 0
-                if len(linefinal13) == 0 and len(datafromWWW)!= 0:
-                    counterror.append("1")
-                    checkerrorlist1.append("linefinal ไม่มีข้อมูล")
+                    sumlenn.append(float(datao[4]))
+                    noterror = 1
+                    linefinal13.append((datao[1],datao[2],datao[3]))
                     break
-                    # datafromWWW.remove(datafromWWW[0])
-                    # b = 1
-                    # count = 0
-                print(linefinal13)
-                while i < len(linefinal13)-1 :
-                    if linefinal13[i][2] !=  linefinal13[i+1][1] and linefinal13[i][2] !=  linefinal13[i+1][2] and linefinal13[i][1] !=  linefinal13[i+1][1] and linefinal13[i][1] !=  linefinal13[i+1][2]: #fnode Tnode ไม่ต่อกัน
-                        count = 0
-                        linefinal13.clear()
-                        sumlenn.clear()
-                        Nodefinal12.clear()
-                        counterror.clear()
-                        checkerrorlist1.append(checkerrorlist2)
-                        checkerrorlist2.clear()
-                        testRoadIDwithQgis12.clear()
-                        c = False
-                        datafromWWW.remove(datafromWWW[0]) #ลบตัวหน้า
-                        b = 1
-                    print(i)    
-                    i = i+1
+            if noterror == 0 : #มีตัวที่ไม่มีในdatabase
+                counterror.append("1")
+            count = count+1
+
+            #         if c and str(FnodeCurrent) not in Nodefinal12:
+            #             linefinal13.append((datao[1],datao[2],datao[3]))
+            #             #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
+            #             TnodeCurrent = int(datao[3])
+            #             sumlenn.append(float(datao[4]))
+            #             Nodefinal12.append(datao[2])
+            #             testRoadIDwithQgis12.append(
+            #             str(datafromWWW[count]['id'])+",")
+            #             noterror = 1
+            #         if noterror != 1 and c: #กันการเปลี่ยน f node t nodeตรงกลาง #and len(Nodefinal) != 1 
+            #             linefinal13.append((datao[1],datao[2],datao[3])) #roadID Fnode Tnode
+            #             #linefinal2.append((datao[1],datao[2],datao[3],datafromWWW[count]['dir']))
+            #             TnodeCurrent = int(datao[3])
+            #             sumlenn.append(float(datao[4]))
+            #             Nodefinal12.append(datao[2])
+            #             testRoadIDwithQgis12.append(
+            #             str(datafromWWW[count]['id'])+",")
+            #             noterror = 1
+            #         if TnodeCurrent == NodeStart and c and noterror != 1 : #วนกลับมาจุดเดิม
+            #             num = 0
+            #             for dataa in linefinal13:
+            #                 if int(datafromWWW[num]['id']) == int(dataa[0]):
+            #                     datafromWWW.remove(datafromWWW[num])
+            #                 else: 
+            #                     num=num+1
+            #             linefinal13.clear()
+            #             Nodefinal12.clear()
+            #             sumlenn.clear()
+            #             noterror = 1
+            #             c = False
+            #             count = -1 # มันจะบวกเพิ่มข้างล่าง
+            #         break
+            # count = count+1
+        b = 0
+        i = 0
+            # if (TnodeCurrent == NodeEnd or FnodeCurrent == NodeEnd) and len(linefinal13) > 0:
+            #     Nodefinal12.append(TnodeCurrent)
+            #     i = 0
+            #     if len(linefinal13) == 0 and len(datafromWWW)!= 0:
+            #         counterror.append("1")
+            #         checkerrorlist1.append("linefinal ไม่มีข้อมูล")
+            #         break
+            #         # datafromWWW.remove(datafromWWW[0])
+            #         # b = 1
+            #         # count = 0
+            #     print(linefinal13)
+        while i < len(linefinal13)-1 :
+            if linefinal13[i][2] !=  linefinal13[i+1][1] and linefinal13[i][2] !=  linefinal13[i+1][2] and linefinal13[i][1] !=  linefinal13[i+1][1] and linefinal13[i][1] !=  linefinal13[i+1][2]: #fnode Tnode ไม่ต่อกัน
+                count = 0
+                linefinal13.clear()
+                sumlenn.clear()
+                Nodefinal12.clear()
+                counterror.append("1")
+                checkerrorlist1.append(checkerrorlist2)
+                checkerrorlist2.clear()
+                c = False
+                b = 1
+            print(i)    
+            i = i+1
                     
 
-                if b == 0 : #
-                    counterror.clear()
-                    checkerrorlist2.clear()
-                    break
+            if b == 0 : #
+                counterror.clear()
+                checkerrorlist2.clear()
+                break
                 
-            elif noterror != 1 and c:
-                if len(Nodefinal12) != 1:
-                    try:
-                        linefinal13.clear()
-                        sumlenn.clear()
-                        Nodefinal12.clear()
-                        counterror.clear()
-                        checkerrorlist2.clear()
-                        testRoadIDwithQgis12.clear()
-                        c = False
-                        checkerrorlist2.append(("ทำไมroadไอดี "+str(datafromWWW[count-1]['id'])+" ไม่มีในdatabase")+'\n')
-                        counterror.append("1")
-                    except:
-                        counterror.append("1")
-                        checkerrorlist1.append("linefinal ไม่มีข้อมูล")
+            # elif noterror != 1 and c:
+            #     if len(Nodefinal12) != 1:
+            #         try:
+            #             linefinal13.clear()
+            #             sumlenn.clear()
+            #             Nodefinal12.clear()
+            #             counterror.clear()
+            #             checkerrorlist2.clear()
+            #             testRoadIDwithQgis12.clear()
+            #             c = False
+            #             checkerrorlist2.append(("ทำไมroadไอดี "+str(datafromWWW[count-1]['id'])+" ไม่มีในdatabase")+'\n')
+            #             counterror.append("1")
+            #         except:
+            #             counterror.append("1")
+            #             checkerrorlist1.append("linefinal ไม่มีข้อมูล")
         # if reversee == 1:
         #     linefinal13.reverse()
         #     sumlenn.reverse()
         checkerrorlist.extend(checkerrorlist2)
         Nodefinal.clear()
         for data in linefinal13 :
+
             linefinal.append(str(data[0]+",P"+str(data[1])+",P"+str(data[2])+'\n'))  
-            if data[1] not in Nodefinal:
-                Nodefinal.append(data[1])
-            if data[2] not in Nodefinal:
-                Nodefinal.append(data[2])
+            if check == 1:
+                if data[1] not in Nodefinal:
+                    Nodefinal.append(data[1])
+                if data[2] not in Nodefinal:
+                    Nodefinal.append(data[2])
+            elif check == 2:
+                if data[2] not in Nodefinal:
+                    Nodefinal.append(data[2])
+                if data[1] not in Nodefinal:
+                    Nodefinal.append(data[1])
+
 
 
 
